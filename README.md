@@ -7,5 +7,7 @@ os : https://austinhenley.com/blog/challengingprojects.html
 ## compiler 
 https://www.youtube.com/watch?v=WY3clwTLEXc&list=LL&index=1&t=212s
 
-## 자연어 처리 
+## CompAiler
 eng -> shell : https://github.com/emcf/engshell
+
+https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1224/reports/custom_116997097.pdf
