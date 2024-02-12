@@ -14,4 +14,5 @@ https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1224/reports/custom_1169
 
 https://paperswithcode.com/search?q_meta=&q_type=&q=NLC2CMD
 
-DATASET? : https://ibm.ent.box.com/v/nl2bash-data
+DATASET? : https://ibm.ent.box.com/v/nl2bash-data  
+https://github.com/magnumresearchgroup/bash_gen/tree/master  
