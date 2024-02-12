@@ -8,3 +8,4 @@ os : https://austinhenley.com/blog/challengingprojects.html
 https://www.youtube.com/watch?v=WY3clwTLEXc&list=LL&index=1&t=212s
 
 ## 자연어 처리 
+eng -> shell : https://github.com/emcf/engshell
