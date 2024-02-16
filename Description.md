@@ -49,7 +49,7 @@ class BilingualDataset(Dataset):
 
 By applying these masks appropriately, the model can effectively process input sequences and generate outputs while considering only the relevant parts of the input and preventing access to future information during training.
 
-The returned src_mask and tgt_mask later process the masked part similar to $-\inf$(-1e9) in the MultiHeadAttentionBlock at model.py as shown in the code below.
+The returned src_mask and tgt_mask later process the masked part similar to $-\infty$(-1e9) in the MultiHeadAttentionBlock at model.py as shown in the code below.
 
 ```py
 class MultiHeadAttentionBlock(nn.Module):
