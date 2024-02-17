@@ -20,3 +20,5 @@ https://github.com/magnumresearchgroup/bash_gen/tree/master
 `CompAiler:~$ download a picture of a galaxy...`
 
 파이썬으로 bash 명령어 실행 : https://blankspace-dev.tistory.com/359
+
+tokenizer : https://huggingface.co/docs/transformers/tokenizer_summary
