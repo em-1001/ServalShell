@@ -64,6 +64,35 @@ class MultiHeadAttentionBlock(nn.Module):
 
 # train.py
 ## ‎get_or_build_tokenizer‎()
+1. **get_all_sentences(ds, lang)**:  
+This function extracts all sentences from the dataset **ds**. It retrieves the translated sentences corresponding to the given language **lang** and returns them. This function serves as a generator, yielding one sentence at a time.  
+2. **get_or_build_tokenizer(config, ds, lang)**:  
+This function retrieves or builds a tokenizer for the given language. It takes three arguments:  
+- config: A dictionary containing settings related to the path of the tokenizer file.  
+- ds: The dataset object.  
+- lang: The language for which the tokenizer will be retrieved or built.  
+This function first checks if the tokenizer file for the specified language exists. If it does not exist, it learns and saves the tokenizer for that language by extracting all sentences from the dataset. Otherwise, it loads the saved tokenizer file.  
+3. **tokenizer_path**:  
+This variable represents the path of the tokenizer file. The path is determined based on the values obtained from the configured **config**.  
+4. **Tokenizer**:  
+This class represents a tokenizer provided by the Hugging Face’s Tokenizers library. It tokenizes text and encodes tokens into numerical values.  
+5. **WordLevel**:  
+This class represents a word-level tokenizer. Each word is treated as an individual token.  
+6. **Whitespace**:  
+This class represents a pre-tokenizer that tokenizes text based on whitespace. Words are separated by whitespace.  
+7. **WordLevelTrainer**:  
+This class is responsible for training the tokenizer. It sets hyperparameters such as minimum frequency to train the tokenizer.  
+8. **[UNK], [PAD], [SOS], [EOS]**:  
+These tokens represent unknown, padding, start of sentence, and end of sentence tokens, respectively. These special tokens provide additional information to the model or are used during data preprocessing.  
+
+
+
+
+
+
+
+
+
 
 
 
