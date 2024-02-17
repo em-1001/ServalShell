@@ -85,6 +85,14 @@ This class is responsible for training the tokenizer. It sets hyperparameters su
 8. **[UNK], [PAD], [SOS], [EOS]**:  
 These tokens represent unknown, padding, start of sentence, and end of sentence tokens, respectively. These special tokens provide additional information to the model or are used during data preprocessing.  
 
+### PAD token
+Padding tokens are primarily used to align the lengths of input sequences. This ensures that the model can handle sequences of the same length in each batch effectively. The main roles are as follows:  
+1. **Sequence Length Alignment**:  
+The model requires fixed-size inputs, but actual data may have sequences of varying lengths. By adding padding tokens, all sequences are aligned to the same length, enabling the model to process them efficiently.  
+2. **Masking**:  
+Padding tokens allow the model to recognize and ignore padded parts. They are irrelevant to the actual data and considered unnecessary information during model training. Therefore, the model can focus only on the valid parts of the sequences while disregarding information from padding tokens.  
+3. **Computational Efficiency**:  
+Using padding tokens ensures that all sequences are of the same length, resulting in more efficient batch operations. This improves computational speed when training the model using accelerators such as GPUs or TPUs.  
 
 
 
