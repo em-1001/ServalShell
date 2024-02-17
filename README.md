@@ -25,6 +25,14 @@ tokenizer : https://huggingface.co/docs/transformers/tokenizer_summary
 
 load_dataset : https://huggingface.co/docs/datasets/loading -> json부분 읽어보기
 
+load_dataset할 때 json으로 가져와서 원래 영상코드로 가져온 데이터셋이랑 형식이 어떻게 다른지 확인해야됨.  
+get_all_sentences의 인자로 load_dataset의 결과가 들어가는데 원래 영상 코드처럼 주어진 lang의 문장만 내뱉을 수 있도록 만들어야 한다.
+
+
+
+
+
+
 
 
 
