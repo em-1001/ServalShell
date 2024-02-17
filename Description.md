@@ -81,7 +81,7 @@ This class represents a word-level tokenizer. Each word is treated as an individ
 6. **Whitespace**:  
 This class represents a pre-tokenizer that tokenizes text based on whitespace. Words are separated by whitespace.  
 7. **WordLevelTrainer**:  
-This class is responsible for training the tokenizer. It sets hyperparameters such as minimum frequency to train the tokenizer.  
+This class is responsible for training the tokenizer. It sets hyperparameters such as minimum frequency to train the tokenizer. For example, if the minimum frequency is set to 2, only tokens that appear two or more times in the training data will be included in the tokenizer.  
 8. **[UNK], [PAD], [SOS], [EOS]**:  
 These tokens represent unknown, padding, start of sentence, and end of sentence tokens, respectively. These special tokens provide additional information to the model or are used during data preprocessing.  
 
