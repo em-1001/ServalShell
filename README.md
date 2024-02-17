@@ -22,3 +22,10 @@ https://github.com/magnumresearchgroup/bash_gen/tree/master
 파이썬으로 bash 명령어 실행 : https://blankspace-dev.tistory.com/359
 
 tokenizer : https://huggingface.co/docs/transformers/tokenizer_summary
+
+load_dataset : https://huggingface.co/docs/datasets/loading -> json부분 읽어보기
+
+
+
+
+
