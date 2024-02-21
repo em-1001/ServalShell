@@ -6,6 +6,27 @@ https://hackernoon.com/search?query=shell
 os : https://austinhenley.com/blog/challengingprojects.html  
 
 ## compiler 
+```
+Art by Blazej Kozlowski
+       _                        
+       \`*-.                    
+        )  _`-.                 
+       .  : `. .                
+       : _   '  \               
+       ; *` _.   `*-._          
+       `-.-'          `-.       
+         ;       `       `.     
+         :.       .        \    
+         . \  .   :   .-'   .   
+         '  `+.;  ;  '      :   
+         :  '  |    ;       ;-. 
+         ; '   : :`-:     _.`* ;
+      .*' /  .*' ; .*`- +'  `*' 
+      `*-*   `*-*  `*-*'
+                                          
+ServalShell:~$
+```
+
 https://www.youtube.com/watch?v=WY3clwTLEXc&list=LL&index=1&t=212s
 
 ## CompAiler
