@@ -1,11 +1,4 @@
 # ServalShell
-## Attention is all you need
-## minishell 
-https://github.com/f0lio/minishell?tab=readme-ov-file  
-https://hackernoon.com/search?query=shell    
-os : https://austinhenley.com/blog/challengingprojects.html  
-
-## ServalShell
 ```
 Art by Blazej Kozlowski
        _                        
@@ -60,6 +53,11 @@ def get_all_sentences(ds, lang):
         yield item[lang]
 ```
 
+## Attention is all you need
+## minishell 
+https://github.com/f0lio/minishell?tab=readme-ov-file  
+https://hackernoon.com/search?query=shell    
+os : https://austinhenley.com/blog/challengingprojects.html  
 
 
 
