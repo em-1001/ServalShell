@@ -25,6 +25,15 @@ ServalShell:~$
 ```  
 cat ref : https://www.asciiart.eu/animals/cats  
 
+$$Mask_{target} = 
+\begin{pmatrix}
+? & 0 & 0 & 0 & \cdots & 0 \\
+? & ? & 0 & 0 & \cdots & 0 \\ 
+? & ? & ? & 0 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\   
+? & ? & ? & ? & \cdots & ?
+\end{pmatrix}$$
+
 https://www.youtube.com/watch?v=WY3clwTLEXc&list=LL&index=1&t=212s
 
 ## CompAiler
