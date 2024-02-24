@@ -14,7 +14,7 @@ def get_config():
       "model_basename": "tmodel_",
       "preload": None,
       "tokenizer_file": "tokenizer_{0}.json",
-      "experiment_name": "/content/tmodel"
+      "experiment_name": "/content/drive/MyDrive/tmodel"
   }
 
 
