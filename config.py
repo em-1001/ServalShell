@@ -15,11 +15,11 @@ def get_config():
       "d_model": 512,
       "lang_src": "invocation",
       "lang_tgt": "cmd",
-      "model_folder": "weights",
+      "model_folder": "/content/drive/MyDrive/transformer/weights",
       "model_basename": "tmodel_",
       "preload": None,
       "tokenizer_file": "tokenizer_{0}.json",
-      "experiment_name": "/content/drive/MyDrive/tmodel"
+      "experiment_name": "/content/tmodel"
   }
 
 
