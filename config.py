@@ -1,4 +1,9 @@
 # config.py
+"""
+from google.colab import drive
+drive.mount('/content/drive')
+"""
+
 from pathlib import Path
 
 def get_config():
