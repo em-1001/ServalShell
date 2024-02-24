@@ -4,7 +4,7 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
 from dataset import BilingualDataset, causal_mask
-# from model import build_transformer
+from model import Transformer
 
 from config import get_weights_file_path, get_config
 
@@ -90,7 +90,7 @@ def run_validation(model, validation_ds, tokenizer_src, tokenizer_tgt, max_len, 
             source_texts.append(source_text)
             expected.append(target_text)
             predicted.append(model_out_text)
-            
+
             # Print the source, target and model output
             print_msg('-'*console_width)
             print_msg(f"{f'SOURCE: ':>12}{source_text}")
