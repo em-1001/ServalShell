@@ -182,8 +182,8 @@ def train_model(config):
 
   initial_epoch = 0
   global_step = 0
-  if config['preload']:
-    model_filename = get_weights_file_path(config, config['preload'])
+  if True: # config['preload']:
+    model_filename = get_weights_file_path(config)
     print(f"Preloading model {model_filename}")
     state = torch.load(model_filename)
     initial_epoch = state['epoch'] + 1
@@ -232,7 +232,7 @@ def train_model(config):
     run_validation(model, val_dataloader, tokenizer_src, tokenizer_tgt, config['seq_len'], device, lambda msg: batch_iterator.write(msg), global_step, writer)
 
     # Save the model at the end of every epoch
-    model_filename = get_weights_file_path(config, f'{epoch:02d}')
+    model_filename = get_weights_file_path(config)
     torch.save({
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
