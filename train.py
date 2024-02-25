@@ -180,9 +180,12 @@ def train_model(config):
 
   optimizer = torch.optim.Adam(model.parameters(), lr=config['lr'], eps=1e-9)
 
+  if True:
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=140)
+
   initial_epoch = 0
   global_step = 0
-  if True: # config['preload']:
+  if False: # config['preload']:
     model_filename = get_weights_file_path(config)
     print(f"Preloading model {model_filename}")
     state = torch.load(model_filename)
@@ -193,7 +196,7 @@ def train_model(config):
   loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer_src.token_to_id('[PAD]'), label_smoothing=0.1).to(device)
 
   for epoch in range(initial_epoch, config['num_epochs']):
-    torch.cuda.empty_cache()
+    print(scheduler._last_lr)
     model.train()
     batch_iterator = tqdm(train_dataloader, desc=f"Processing epoch {epoch:02d}")
 
@@ -222,11 +225,17 @@ def train_model(config):
       # Backpropagate the loss
       loss.backward()
 
+      # Gradient Clipping
+      # max_norm = 5.0
+      # nn.utils.clip_grad_norm_(model.parameters(), max_norm)
+
       # Update the weights
       optimizer.step()
       optimizer.zero_grad()
 
       global_step += 1
+
+    scheduler.step()
 
     # Run validation at the end of every epoch
     run_validation(model, val_dataloader, tokenizer_src, tokenizer_tgt, config['seq_len'], device, lambda msg: batch_iterator.write(msg), global_step, writer)
@@ -245,4 +254,3 @@ if __name__ == '__main__':
   warnings.filterwarnings('ignore')
   config = get_config()
   train_model(config)
-
