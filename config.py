@@ -11,7 +11,7 @@ def get_config():
       "batch_size": 8,
       "num_epochs": 100,
       "lr": 1e-4,
-      "seq_len": 350, # 510
+      "seq_len": 350, # 512
       "d_model": 512,
       "lang_src": "invocation",
       "lang_tgt": "cmd",
