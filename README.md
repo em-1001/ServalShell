@@ -21,7 +21,7 @@ ServalShell:~$ show id
 compiling natural language to bash ...|OK|
 found command `id`
 uid=1000(username) gid=1000(username) groups=1000(username),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare)
-ServalShell:~$
+ServalShell:~$ Prints hierarchical process tree.
 ```  
 cat ref : https://www.asciiart.eu/animals/cats  
 
