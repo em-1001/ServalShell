@@ -203,7 +203,7 @@ class Transformer(nn.Module):
       src = layer(src, src_mask)
     return self.layer_norm(src)
 
-  def decode(self, tgt, encoder_output, src_mask, tgt_mask):
+  def decode(self, encoder_output, src_mask, tgt, tgt_mask):
     # (batch, seq_len, d_model)
     tgt = self.tgt_embed(tgt)
 
