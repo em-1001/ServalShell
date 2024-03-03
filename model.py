@@ -130,15 +130,17 @@ class EncoderLayer(nn.Module):
     self.dropout = nn.Dropout(dropout)
 
   def forward(self, x, src_mask):
-    residual_1 = x
+    residual = x
+    x = self.layer_norm(x)
     x = self.self_attention(x, x, x, src_mask)
     x = self.dropout(x)
-    x = self.layer_norm(residual_1 + x)
-
-    residual_2 = x
+    x = residual + x
+    
+    residual = x
+    x = self.layer_norm(x)
     x = self.feed_forward(x)
     x = self.dropout(x)
-    x = self.layer_norm(residual_2 + x)
+    x = residual + x
 
     return x
 
@@ -154,20 +156,23 @@ class DecoderLayer(nn.Module):
     self.dropout = nn.Dropout(dropout)
 
   def forward(self, x, encoder_output, src_mask, tgt_mask):
-    residual_1 = x
+    residual = x
+    x = self.layer_norm(x)
     x = self.self_attention(x, x, x, tgt_mask)
     x = self.dropout(x)
-    x = self.layer_norm(residual_1 + x)
+    x = residual + x
 
-    residual_2 = x
+    residual = x
+    x = self.layer_norm(x)
     x = self.cross_attention(x, encoder_output, encoder_output, src_mask)
     x = self.dropout(x)
-    x = self.layer_norm(residual_2 + x)
+    x = residual + x
 
-    residual_3 = x
+    residual = x
+    x = self.layer_norm(x)
     x = self.feed_forward(x)
     x = self.dropout(x)
-    x = self.layer_norm(residual_3 + x)
+    x = residual + x
 
     return x
 
