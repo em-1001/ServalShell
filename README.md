@@ -26,6 +26,11 @@ ServalShell:~$ Prints hierarchical process tree.
     "4398": {
         "invocation": "Lookup information of the current user",
         "cmd": "finger `whoami`"
+
+    "4755": {
+        "invocation": "Print \"hello\" followed by the current user name",
+        "cmd": "echo hello `whoami`"
+    },
 ```  
 cat ref : https://www.asciiart.eu/animals/cats  
 
