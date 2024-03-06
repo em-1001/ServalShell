@@ -1,0 +1,4 @@
+[submodule "nlc2cmd @ 2ad172a"]
+    path = https://github.com/em-1001/ServalShell/
+    url = https://github.com/IBM/clai.git
+    branch = 2ad172acbed0c1ec870cc39f47635adea39f19c0
