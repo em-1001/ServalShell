@@ -1,6 +1,5 @@
 # ServalShell
 ```
-Art by Blazej Kozlowski
        _                        
        \`*-.                    
         )  _`-.                 
