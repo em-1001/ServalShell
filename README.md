@@ -40,6 +40,12 @@ ServalShell:~$ Prints hierarchical process tree.
 ```  
 cat ref : https://www.asciiart.eu/animals/cats  
 
+```
+# nl -> cmd 
+_NUMBER -> Quantity
+_FILE -> File
+```
+
 $$Mask_{target} = 
 \begin{pmatrix}
 ? & 0 & 0 & 0 & \cdots & 0 \\
