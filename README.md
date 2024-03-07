@@ -44,6 +44,7 @@ cat ref : https://www.asciiart.eu/animals/cats
 # nl -> cmd 
 _NUMBER -> Quantity
 _FILE -> File
+_FILE -> Regex
 ```
 
 $$Mask_{target} = 
