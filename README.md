@@ -84,7 +84,18 @@ https://hackernoon.com/search?query=shell
 os : https://austinhenley.com/blog/challengingprojects.html  
 
 
-
-
+# Citation
+If you used Tellina in your work, please cite
+```
+@techreport{LinWPVZE2017:TR, 
+  author = {Xi Victoria Lin and Chenglong Wang and Deric Pang and Kevin Vu and Luke Zettlemoyer and Michael D. Ernst}, 
+  title = {Program synthesis from natural language using recurrent neural networks}, 
+  institution = {University of Washington Department of Computer Science and Engineering}, 
+  number = {UW-CSE-17-03-01}, 
+  address = {Seattle, WA, USA}, 
+  month = mar, 
+  year = {2017} 
+}
+```
 
 
