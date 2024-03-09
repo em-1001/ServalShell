@@ -1,6 +1,6 @@
 # ServalShell
 ```
-/content# python3 servalshell.py
+/content# ./servalshell.sh
        _                        
        \`*-.                    
         )  _`-.                 
