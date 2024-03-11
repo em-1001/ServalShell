@@ -19,23 +19,6 @@
                                           
 ServalShell:~$ print current user name
 root
-ServalShell:~$ Prints hierarchical process tree.
-
-    "4398": {
-        "invocation": "Lookup information of the current user",
-        "cmd": "finger `whoami`"
-    "4755": {
-        "invocation": "Print \"hello\" followed by the current user name",
-        "cmd": "echo hello `whoami`"
-    },
-    "5501": {
-        "invocation": "Print the user name of the current user",
-        "cmd": "echo `whoami`"
-    },
-    "5502": {
-        "invocation": "Print the user name of the current user",
-        "cmd": "whoami"
-    },
 ```  
 cat ref : https://www.asciiart.eu/animals/cats  
 
