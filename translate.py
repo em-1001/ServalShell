@@ -30,7 +30,7 @@ def translate(sentence: str):
     model = Transformer(tokenizer_src.get_vocab_size(), tokenizer_tgt.get_vocab_size(), config['seq_len'], config['seq_len'], config['d_model']).to(device)
 
     # Load the pretrained weights
-    model_filename = "/content/drive/MyDrive/transformer/weights/tellina21epoch.pth" # get_weights_file_path(config)
+    model_filename = "./tellina21epoch.pth" # get_weights_file_path(config)
     # print(model_filename)
     state = torch.load(model_filename)
     model.load_state_dict(state['model_state_dict'])
