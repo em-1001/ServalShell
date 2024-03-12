@@ -1,6 +1,16 @@
 import collections
+import sys
+if sys.version_info.major == 3 and sys.version_info.minor >= 10:
+    from collections.abc import MutableSet
+    from collections.abc import Mapping
+    collections.MutableSet = collections.abc.MutableSet
+    collections.Mapping = collections.abc.Mapping
+else:
+    from collections import MutableSet
+    from collections import Mapping
 
-class typedset(collections.MutableSet):
+
+class typedset(MutableSet):
     def __init__(self, type_, iterable=[]):
         self._s = set()
         self._type = type_
@@ -48,7 +58,7 @@ class typedset(collections.MutableSet):
     def __repr__(self):
         return self._s.__repr__()
 
-class frozendict(collections.Mapping):
+class frozendict(Mapping):
     def __init__(self, *args, **kwargs):
         self.__dict = dict(*args, **kwargs)
         self.__hash = None
