@@ -19,7 +19,13 @@
                                           
 ServalShell:~$ print current user name
 root
-```  
+```
+
+# how to train 
+
+# how to run 
+
+
 cat ref : https://www.asciiart.eu/animals/cats  
 
 ```
