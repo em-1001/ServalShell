@@ -86,5 +86,14 @@ If you used Tellina in your work, please cite
   year = {2017} 
 }
 ```
+```
+@inproceedings{LinWZE2018:NL2Bash, 
+  author = {Xi Victoria Lin and Chenglong Wang and Luke Zettlemoyer and Michael D. Ernst}, 
+  title = {NL2Bash: A Corpus and Semantic Parser for Natural Language Interface to the Linux Operating System}, 
+  booktitle = {Proceedings of the Eleventh International Conference on Language Resources
+               and Evaluation {LREC} 2018, Miyazaki (Japan), 7-12 May, 2018.},
+  year = {2018} 
+}
+```
 
 
