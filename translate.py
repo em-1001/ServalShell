@@ -1,3 +1,4 @@
+# translate
 from pathlib import Path
 from config import get_config, get_weights_file_path
 from model import Transformer
@@ -26,10 +27,10 @@ def translate(sentence: str):
     config = get_config()
     tokenizer_src = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_src']))))
     tokenizer_tgt = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_tgt']))))
-    model = get_model(config, tokenizer_src.get_vocab_size(), tokenizer_tgt.get_vocab_size()).to(device)
+    model = Transformer(tokenizer_src.get_vocab_size(), tokenizer_tgt.get_vocab_size(), config['seq_len'], config['seq_len'], config['d_model']).to(device)
 
     # Load the pretrained weights
-    model_filename = get_weights_file_path(config)
+    model_filename = "/content/drive/MyDrive/transformer/weights/tellina21epoch.pth" # get_weights_file_path(config)
     # print(model_filename)
     state = torch.load(model_filename)
     model.load_state_dict(state['model_state_dict'])
@@ -57,9 +58,7 @@ def translate(sentence: str):
            ]
         )
         source_mask = (encoder_input != pad_token).unsqueeze(0).int()
-        print(encoder_input.unsqueeze(0).shape)
         encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
-        print(encoder_output.shape)
 
         # Initialize the decoder input with the sos token
         decoder_input = torch.empty(1, 1).fill_(tokenizer_tgt.token_to_id('[SOS]')).type_as(encoder_input).to(device)
@@ -77,7 +76,7 @@ def translate(sentence: str):
             # build mask for target and calculate output
             # decoder_mask = torch.triu(torch.ones((1, decoder_input.size(1), decoder_input.size(1))), diagonal=1).type(torch.int).type_as(source_mask)
             decoder_mask = causal_mask(decoder_input.size(1)).type_as(source_mask).to(device)
-            out = model.decode(decoder_input.to(device), encoder_output.to(device), source_mask.to(device), decoder_mask.to(device))
+            out = model.decode(encoder_output.to(device), source_mask.to(device), decoder_input.to(device), decoder_mask.to(device))
 
             # project next token
             prob = model.project(out[:, -1])
@@ -95,4 +94,4 @@ def translate(sentence: str):
     # convert ids to tokens
     return tokenizer_tgt.decode(decoder_input.squeeze(0).detach().cpu().numpy())
 
-translate('creates a directory named "my_folder"')
+# translate('creates a directory named "my_folder"')
