@@ -19,6 +19,8 @@
                                           
 ServalShell:~$ print current user name
 root
+
+ServalShell:~$
 ```
 
 # how to train 
