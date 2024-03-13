@@ -1,0 +1,13 @@
+eval==0.0.5
+lex==0.1.1
+matplotlib==3.7.1
+nltk==3.8.1
+numpy==1.25.2
+ply==3.11
+scikit_learn==1.2.2
+scipy==1.12.0
+six==1.16.0
+tensorflow==2.15.0
+tokenizers==0.15.2
+torch==2.1.0+cu121
+tqdm==4.66.2
