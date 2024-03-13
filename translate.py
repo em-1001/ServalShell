@@ -23,7 +23,6 @@ def get_ds(config):
 def translate(sentence: str):
     # Define the device, tokenizers, and model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print("Using device:", device)
     config = get_config()
     tokenizer_src = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_src']))))
     tokenizer_tgt = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_tgt']))))
@@ -64,8 +63,6 @@ def translate(sentence: str):
         decoder_input = torch.empty(1, 1).fill_(tokenizer_tgt.token_to_id('[SOS]')).type_as(encoder_input).to(device)
 
         # Print the source sentence and target start prompt
-        print(f"{f'SOURCE: ':>12}{sentence}")
-        print(f"{f'PREDICTED: ':>12}", end='')
 
         def causal_mask(size):
           mask = torch.triu(torch.ones(1, size, size), diagonal=1).type(torch.int)
@@ -90,7 +87,6 @@ def translate(sentence: str):
             if next_word == tokenizer_tgt.token_to_id('[EOS]'):
                 break
 
-    print(tokenizer_tgt.decode(decoder_input.squeeze(0).detach().cpu().numpy()))
     # convert ids to tokens
     return tokenizer_tgt.decode(decoder_input.squeeze(0).detach().cpu().numpy())
 
