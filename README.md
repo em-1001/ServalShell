@@ -21,6 +21,18 @@ ServalShell:~$
 ```
 
 # how to train 
+1. **Install packages**   
+```sh
+$ pip install -r requirements.txt
+```
+2. **Data preprocessing**
+```sh
+$ python3 preprocess.py
+```
+3. **Set config.py values and Train**
+```sh
+$ python3 train.py
+```
 
 # how to run 
 1. **Install packages**   
