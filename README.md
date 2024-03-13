@@ -45,14 +45,8 @@ $ unzip  -qq /content/ServalShell/nlc2bash-21epoch.zip
 $ ./servalshell.sh
 ```
 
-cat ref : https://www.asciiart.eu/animals/cats  
+_______________________________________________________________________________________
 
-```
-# nl -> cmd 
-_NUMBER -> Quantity
-_FILE -> File
-_FILE -> Regex
-```
 
 $$Mask_{target} = 
 \begin{pmatrix}
