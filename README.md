@@ -20,7 +20,7 @@
 ServalShell:~$ 
 ```
 
-# how to train 
+# How to train 
 1. **Install packages**   
 ```sh
 $ pip install -r requirements.txt
@@ -34,7 +34,7 @@ $ python3 preprocess.py
 $ python3 train.py
 ```
 
-# how to run 
+# How to run 
 1. **Install packages**   
 ```sh
 $ pip install -r requirements.txt
@@ -52,7 +52,7 @@ $ chmod 600 ~/.kaggle/kaggle.json
 $ kaggle datasets download -d sj2129tommy/nlc2bash-21epoch
 $ unzip  -qq /content/ServalShell/nlc2bash-21epoch.zip
 ```
-4. **run servalshell**  
+4. **Run servalshell**  
 ```sh
 $ ./servalshell.sh
 ```
