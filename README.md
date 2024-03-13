@@ -23,7 +23,27 @@ ServalShell:~$
 # how to train 
 
 # how to run 
-1. **
+1. **Install packages**   
+```sh
+$ pip install -r requirements.txt
+```
+2. **Create kaggle token**  
+Download the kaggle token and put it in the ServalShell folder
+```json
+{"username":"?????","key":"????????????????????????????"}
+```
+3. **Download pretrained weights**  
+```sh
+$ mkdir -p ~/.kaggle
+$ cp kaggle.json ~/.kaggle/
+$ chmod 600 ~/.kaggle/kaggle.json
+$ kaggle datasets download -d sj2129tommy/nlc2bash-21epoch
+$ unzip  -qq /content/ServalShell/nlc2bash-21epoch.zip
+```
+4. **run servalshell**  
+```sh
+$ ./servalshell.sh
+```
 
 cat ref : https://www.asciiart.eu/animals/cats  
 
