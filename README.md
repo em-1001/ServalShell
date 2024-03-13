@@ -17,7 +17,10 @@
       .*' /  .*' ; .*`- +'  `*' 
       `*-*   `*-*  `*-*'
                                           
-ServalShell:~$ 
+ServalShell:~$ print current user name
+command: whoami
+root
+ServalShell:~$
 ```
 
 # How to train 
