@@ -61,10 +61,10 @@ def servalshell():
 
         try:
             output = subprocess.check_output(bash, shell=True, text=True)
-            print(output)
+            print(output, end='')
         except subprocess.CalledProcessError as e:
             print("\033[36m" + "recommended command structure" + "\033[30m")
-            print(bash)
+            print(bash, end='')
 
 # servalshell()
 
