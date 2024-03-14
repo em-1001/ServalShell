@@ -1,4 +1,8 @@
 # config.py
+# reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
+# github code : https://github.com/hkproj/pytorch-transformer/blob/main/config.py
+
+
 """
 from google.colab import drive
 drive.mount('/content/drive')
