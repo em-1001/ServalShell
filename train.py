@@ -2,7 +2,6 @@
 # reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
 # original code : https://github.com/hkproj/pytorch-transformer/blob/main/train.py
 
-
 import sys
 sys.path.append("./Tellina")
 from bashlint.data_tools import bash_tokenizer, bash_parser, ast2tokens, ast2command
@@ -116,21 +115,13 @@ def run_validation(model, validation_ds, tokenizer_src, tokenizer_tgt, max_len, 
 
 def get_all_sentences(ds, lang):
     for item in ds.values():
-      #if lang == "cmd":
-      #  yield ' '.join(bash_tokenizer(item[lang], loose_constraints=True))
-      #else:
-      #  yield item[lang]
-      #  yield ' '.join(tokenizer.ner_tokenizer(item[lang])[0])
       yield item[lang]
+
 
 def get_or_build_tokenizer(config, ds, lang):
   tokenizer_path = Path(config['tokenizer_file'].format(lang))
   if not Path.exists(tokenizer_path):
     tokenizer = Tokenizer(WordLevel(unk_token='[UNK]'))
-    #if lang == "cmd":
-    #  tokenizer.pre_tokenizer = WhitespaceSplit()
-    #else:
-    #  tokenizer.pre_tokenizer = Whitespace()
     tokenizer.pre_tokenizer = WhitespaceSplit()
     trainer = WordLevelTrainer(special_tokens=["[UNK]", "[PAD]", "[SOS]", "[EOS]"], min_frequency=1)
     tokenizer.train_from_iterator(get_all_sentences(ds, lang), trainer=trainer)
@@ -148,12 +139,6 @@ def load_data(file_path):
 
 def get_ds(config):
   ds_raw = load_data('./Data/nl2bash/preprocessed_data.json')
-
-  # data pre-processing
-  #print("data pre processing...")
-  #for item in ds_raw.values():
-  #  item[config['lang_src']] = ' '.join(tokenizer.ner_tokenizer(item[config['lang_src']])[0])
-  #  item[config['lang_tgt']] = ' '.join(bash_tokenizer(item[config['lang_tgt']], loose_constraints=True, arg_type_only=True))
 
   # Build tokenizers
   tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
@@ -184,7 +169,6 @@ def get_ds(config):
 
 
 def get_model(config, vocab_src_len, vocab_tgt_len):
-  # model = build_transformer(vocab_src_len, vocab_tgt_len, config['seq_len'], config['seq_len'], config['d_model'])
   model = Transformer(vocab_src_len, vocab_tgt_len, config['seq_len'], config['seq_len'], config['d_model'])
   for p in model.parameters():
     if p.dim() > 1:
@@ -206,7 +190,7 @@ def train_model(config):
 
   optimizer = torch.optim.Adam(model.parameters(), betas=(0.9, 0.998), lr=config['lr'], eps=1e-9)
 
-  if False:
+  if False: # config['cos_anneal']:
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=120)
 
   initial_epoch = 0
@@ -222,7 +206,8 @@ def train_model(config):
   loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer_src.token_to_id('[PAD]'), label_smoothing=0.1).to(device)
 
   for epoch in range(initial_epoch, config['num_epochs']+1):
-    # print(scheduler._last_lr)
+    if False: # config['cos_anneal']:
+      print(scheduler._last_lr)
     model.train()
     batch_iterator = tqdm(train_dataloader, desc=f"Processing epoch {epoch:02d}")
 
@@ -261,7 +246,8 @@ def train_model(config):
 
       global_step += 1
 
-    # scheduler.step()
+    if False: # config['cos_anneal']:
+      scheduler.step()
 
     # Run validation at the end of every epoch
     run_validation(model, val_dataloader, tokenizer_src, tokenizer_tgt, config['seq_len'], device, lambda msg: batch_iterator.write(msg), global_step, writer)
