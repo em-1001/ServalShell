@@ -513,3 +513,67 @@ def slot_filler_type_match(slot_type, filler_type):
         '_REGEX, Regex'
     }
     return '{}, {}'.format(filler_type, slot_type) in c_matches
+
+def stupid_slot_matching(nl, cmd):
+    nl_slot_list = [
+        '_NUMBER', '_SIZE', '_TIMESPAN', '_DATETIME', '_NUMBER', '_PERMISSION',
+        '_PATH', '_DIRECTORY', '_FILE', '_REGEX'
+    ]
+    cm_slot_list = [
+        'Number', '+Number', '-Number', 'Quantity', '+Quantity', '-Quantity', 'Size', '+Size', '-Size', 
+        'Timespan', '+Timespan', '-Timespan', 'Datetime', '+Datetime', '-Datetime', 'Permission', '+Permission', '-Permission',
+        'Path', 'Directory', 'File', 'Regex', 'Username', 'Groupname', 'Directory', 
+    ]
+    c_matches = {
+        '_NUMBER, Number',
+        '_NUMBER, +Number',
+        '_NUMBER, -Number',
+        '_NUMBER, Regex',
+        '_NUMBER, Quantity',
+        '_NUMBER, +Quantity',
+        '_NUMBER, -Quantity',
+        '_SIZE, Size',
+        '_SIZE, +Size',
+        '_SIZE, -Size',
+        '_TIMESPAN, Timespan',
+        '_TIMESPAN, +Timespan',
+        '_TIMESPAN, -Timespan',
+        '_DATETIME, DateTime',
+        '_DATETIME, +DateTime',
+        '_DATETIME, -DateTime',
+        '_NUMBER, Permission',
+        '_NUMBER, +Permission',
+        '_NUMBER, -Permission',
+        '_PERMISSION, Permission',
+        '_PERMISSION, +Permission',
+        '_PERMISSION, -Permission',
+        '_PATH, Path',
+        '_DIRECTORY, Directory',
+        '_DIRECTORY, Path',
+        '_FILE, Path',
+        '_FILE, File',
+        '_FILE, Directory',
+        '_FILE, Regex',
+        '_REGEX, Username',
+        '_REGEX, Groupname',
+        '_REGEX, Directory',
+        '_REGEX, File',
+        '_REGEX, Path',
+        '_REGEX, Regex'
+    }    
+
+    _, _, nl_filler= tokenizer.ner_tokenizer(nl)[1]
+    nl_tokens = tokenizer.ner_tokenizer(nl)[0]
+    cm_tokens = cmd.split()
+    nl_slots = []
+    cmd_slots = []
+
+    for nl_token in nl_tokens:
+        for idx, cm_token in enumerate(cm_tokens):
+            if nl_token in nl_slot_list and cm_token in cm_slot_list:
+                if str(nl_token) + ', ' + str(cm_token) in c_matches:
+                    origin = nl_filler[str(nl_token)].pop(0)[0] if len(nl_filler[str(nl_token)]) > 0 else ""
+                    cm_tokens[idx] = origin 
+
+    return ' '.join(cm_tokens)
+
