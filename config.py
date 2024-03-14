@@ -2,9 +2,7 @@
 # reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
 # original code : https://github.com/hkproj/pytorch-transformer/blob/main/config.py
 
-
 from pathlib import Path
-
 
 def get_config():
   return {
