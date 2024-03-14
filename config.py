@@ -3,12 +3,8 @@
 # original code : https://github.com/hkproj/pytorch-transformer/blob/main/config.py
 
 
-"""
-from google.colab import drive
-drive.mount('/content/drive')
-"""
-
 from pathlib import Path
+
 
 def get_config():
   return {
@@ -19,17 +15,17 @@ def get_config():
       "d_model": 512,
       "lang_src": "invocation",
       "lang_tgt": "cmd",
-      "model_folder": "/content/drive/MyDrive/transformer/weights",
+      "model_folder": "./weights",
       "model_basename": "tmodel_",
       "preload": None,
       "tokenizer_file": "tokenizer_{0}.json",
-      "experiment_name": "/content/tmodel"
+      "experiment_name": "./tmodel"
   }
 
 
 def get_weights_file_path(config):
   model_folder = config["model_folder"]
   model_basename = config["model_basename"]
-  model_filename = f"{model_basename}x.pth" # x2
+  model_filename = f"{model_basename}x.pth" 
   return str(Path('.') / model_folder / model_filename)
 
