@@ -18,7 +18,6 @@
       `*-*   `*-*  `*-*'
                                           
 ServalShell:~$ print current user name
-command: whoami
 root
 ServalShell:~$
 ```
