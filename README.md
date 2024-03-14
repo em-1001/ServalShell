@@ -22,6 +22,9 @@ command: whoami
 root
 ServalShell:~$
 ```
+**ServalShell** is an nlc2bash program created by learning the Transformer model proposed in **"Attention Is All You Need"** 2017 research paper. I implemented the Transformer model myself by referring to the **paper** and **Umar Jamil's video**.
+For model learning, refer to the **NL2CMD: An Updated Workflow for Natural
+Language to Bash Commands Translation** paper. **Tellina-Tool** was used for pre-processing and post-processing, and **Hugging Face** was used for tokenizer and dataset.
 
 # How to train 
 1. **Install packages**   
