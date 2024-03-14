@@ -1,4 +1,7 @@
 # dataset.py
+# reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
+# original code : https://github.com/hkproj/pytorch-transformer/blob/main/dataset.py
+
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
