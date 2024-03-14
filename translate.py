@@ -2,12 +2,10 @@
 # reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
 # original code : https://github.com/hkproj/pytorch-transformer/blob/main/translate.py
 
-
 from pathlib import Path
 from config import get_config, get_weights_file_path
 from model import Transformer
 from tokenizers import Tokenizer
-# from datasets import load_dataset
 from dataset import BilingualDataset
 import torch
 import sys
@@ -34,15 +32,12 @@ def translate(sentence: str):
 
     # Load the pretrained weights
     model_filename = "./tellina21epoch.pth" # get_weights_file_path(config)
-    # print(model_filename)
     state = torch.load(model_filename)
     model.load_state_dict(state['model_state_dict'])
 
     # translate the sentence
     model.eval()
     with torch.no_grad():
-        # Precompute the encoder output and reuse it for every generation step
-
         sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
         eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
         pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
@@ -66,8 +61,6 @@ def translate(sentence: str):
         # Initialize the decoder input with the sos token
         decoder_input = torch.empty(1, 1).fill_(tokenizer_tgt.token_to_id('[SOS]')).type_as(encoder_input).to(device)
 
-        # Print the source sentence and target start prompt
-
         def causal_mask(size):
           mask = torch.triu(torch.ones(1, size, size), diagonal=1).type(torch.int)
           return mask == 0
@@ -75,7 +68,6 @@ def translate(sentence: str):
         # Generate the translation word by word
         while decoder_input.size(1) < config['seq_len']:
             # build mask for target and calculate output
-            # decoder_mask = torch.triu(torch.ones((1, decoder_input.size(1), decoder_input.size(1))), diagonal=1).type(torch.int).type_as(source_mask)
             decoder_mask = causal_mask(decoder_input.size(1)).type_as(source_mask).to(device)
             out = model.decode(encoder_output.to(device), source_mask.to(device), decoder_input.to(device), decoder_mask.to(device))
 
@@ -84,9 +76,6 @@ def translate(sentence: str):
             _, next_word = torch.max(prob, dim=1)
             decoder_input = torch.cat([decoder_input, torch.empty(1, 1).type_as(encoder_input).fill_(next_word.item()).to(device)], dim=1)
 
-            # print the translated word
-            # print(f"{tokenizer_tgt.decode([next_word.item()])}", end=' ')
-
             # break if we predict the end of sentence token
             if next_word == tokenizer_tgt.token_to_id('[EOS]'):
                 break
@@ -94,4 +83,3 @@ def translate(sentence: str):
     # convert ids to tokens
     return tokenizer_tgt.decode(decoder_input.squeeze(0).detach().cpu().numpy())
 
-# translate('creates a directory named "my_folder"')
