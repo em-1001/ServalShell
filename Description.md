@@ -8,13 +8,24 @@ In the context of the transformer model, the difference between src_mask and tgt
 - The purpose is to ensure that the model doesn’t attend to the padding tokens, which are added to the input sequences to make them uniform in length but don’t carry any meaningful information.  
 - Padding token positions are masked with zeros in the **src_mask**.  
 
-2. **tgt_mask (Decoder Mask):**    
+2. **tgt_mask (Decoder Mask):**
+
+$$Mask_{target} = 
+\begin{pmatrix}
+? & 0 & 0 & 0 & \cdots & 0 \\
+? & ? & 0 & 0 & \cdots & 0 \\ 
+? & ? & ? & 0 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\   
+? & ? & ? & ? & \cdots & ?
+\end{pmatrix}$$
+
 - **tgt_mask** is mainly used in the decoder part of the transformer model.  
 - It is applied to mask out future tokens in the decoder’s self-attention mechanism and also in the cross-attention mechanism between the decoder and the encoder.    
 - The objective is to prevent the model from accessing future information during training and generation.  
 - Future token positions in the decoder are masked with zeros in the **tgt_mask**.
 
 
+## src_mask & tgt_mask calculation
 The **src_mask** and **tgt_mask** that are returned on dataset.py go through the following operation.
 
 ```py
