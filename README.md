@@ -17,9 +17,24 @@
       .*' /  .*' ; .*`- +'  `*' 
       `*-*   `*-*  `*-*'
                                           
+ServalShell:~$ Add variable 'v' with value '5' to a temporary environment, list this environment using 'less' to interactively view it.
+CGROUP_MEMORY_EVENTS=/sys/fs/cgroup/memory.events /var/colab/cgroup/jupyter-children/memory.events
+CLICOLOR=1
+CLOUDSDK_CONFIG=/content/.config
+CLOUDSDK_PYTHON=python3
+COLAB_BACKEND_VERSION=next
+COLAB_DEBUG_ADAPTER_MUX_PATH=/usr/local/bin/dap_multiplexer
+COLAB_FILE_HANDLER_ADDR=localhost:3453
+COLAB_GPU=1
+COLAB_JUPYTER_IP=172.28.0.12
+COLAB_JUPYTER_TOKEN=
+COLAB_JUPYTER_TRANSPORT=ipc
+COLAB_KERNEL_MANAGER_PROXY_HOST=172.28.0.12
+COLAB_KERNEL_MANAGER_PROXY_PORT=6000
+...
+
 ServalShell:~$ print current user name
 root
-ServalShell:~$
 ```
 **ServalShell** is an nlc2bash program created by learning the Transformer model proposed in **"Attention Is All You Need"** 2017 research paper. I implemented the Transformer model myself by referring to the **paper** and **Umar Jamil's video**.
 For model learning, refer to the **"NL2CMD: An Updated Workflow for Natural
