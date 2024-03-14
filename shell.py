@@ -2,6 +2,7 @@
 1. echo "~" 개선하기 위해 휴리스틱 실패 했을 시 다른 함수 써보기
 2. 성능 테스트 더 해보기
 3. cd 문제 해결
+4. 결과가 없을 경우 RCS(recommended command structure) 보여주기
 """
 
 import os
@@ -41,30 +42,30 @@ def servalshell():
     while True:
         nl = input(prompt)
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-        bash = translate(nl_preprocess)
+        _bash = translate(nl_preprocess)
 
-        node = bash_parser(bash)
+        node = bash_parser(_bash)
         _, _, nl_filler= tokenizer.ner_tokenizer(nl)[1]
         slot_filling.heuristic_slot_filling(node, nl_filler)
 
         bash = ast2command(node)
-        print("command: " + str(bash))
+        bash2 = slot_filling.stupid_slot_matching(nl, _bash)
 
-        if bash.split()[0] == "cd":
-            os.chdir("kernel")
-            #try:
-            #    os.chdir("kernel")
-            #    continue
-            #except:
-            #    print(str(bash.split()[1]))
-            #    continue
+        if _bash == bash:
+            bash = bash2
+            #print("bash command: " + str(bash2))
+        #else:
+            #print("bash command: " + str(bash))
 
         try:
             output = subprocess.check_output(bash, shell=True, text=True)
-            print(output, end='')
+            print(output)
         except subprocess.CalledProcessError as e:
-            print("\033[36m" + "recommended command structure" + "\033[30m")
-            print(bash)
+            print("\033[31m" + "recommended command structure" + "\033[30m")
+            print(_bash)
+            print("\033[31m" + "recommended command" + "\033[30m")
+            print("1. " + str(bash))
+            print("2. " + str(bash2))
 
 # servalshell()
 
