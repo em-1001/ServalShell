@@ -60,16 +60,6 @@ $ unzip  -qq /content/ServalShell/nlc2bash-21epoch.zip
 $ ./servalshell.sh
 ```
 
-$$Mask_{target} = 
-\begin{pmatrix}
-? & 0 & 0 & 0 & \cdots & 0 \\
-? & ? & 0 & 0 & \cdots & 0 \\ 
-? & ? & ? & 0 & \cdots & 0 \\
-\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\   
-? & ? & ? & ? & \cdots & ?
-\end{pmatrix}$$
-
-
 # Citation
 If you used Tellina in your work, please cite
 ```
