@@ -1,4 +1,8 @@
 # translate
+# reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
+# original code : https://github.com/hkproj/pytorch-transformer/blob/main/translate.py
+
+
 from pathlib import Path
 from config import get_config, get_weights_file_path
 from model import Transformer
