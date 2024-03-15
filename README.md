@@ -70,11 +70,14 @@ $ python3 train.py
 ```
 
 ```sh
-Using device cuda
-[00:00:00] Pre-processing sequences
+Bashlint grammar set up (124 utilities)
+
+Using device: cuda
+Device name: Tesla T4
+Device memory: 14.74810791015625 GB
+[00:00:00] Pre-processing sequences       0        /        0
 Max length of source sentence: 44
 Max length of target sentence: 62
-Processing epoch 00: 100% 1046/1046 [01:40<00:00, 10.38it/s, loss=2.294]
 ...
 ```
 
