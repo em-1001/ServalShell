@@ -67,11 +67,11 @@ def servalshell():
             print(output)
         except subprocess.CalledProcessError as e:
             print("\nrecommended command structure")
-            print("→ " + str(_bash), end="\n\n")
+            print("-> " + str(_bash), end="\n\n")
             # print("\033[91m" + "recommended command" + "\033[30m")
             print("recommended command")
-            print("1. " + str(bash))
-            print("2. " + str(bash2))
+            print("-> " + str(bash))
+            print("-> " + str(bash2))
             print("")
 
 servalshell()
