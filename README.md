@@ -1,4 +1,6 @@
 # ServalShell
+![image](https://github.com/em-1001/ServalShell/assets/80628552/2c99681f-403a-4aaa-8b12-224ab4d66da3)
+
 ```
 /content# ./servalshell.sh
        _                        
