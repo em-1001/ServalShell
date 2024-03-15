@@ -26,21 +26,25 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
       .*' /  .*' ; .*`- +'  `*' 
       `*-*   `*-*  `*-*'
                                           
-ServalShell:~$ Add variable 'v' with value '5' to a temporary environment, list this environment using 'less' to interactively view it.
-translated bash: env | uniq | sort -n
-CGROUP_MEMORY_EVENTS=/sys/fs/cgroup/memory.events /var/colab/cgroup/jupyter-children/memory.events
-CLICOLOR=1
-CLOUDSDK_CONFIG=/content/.config
-CLOUDSDK_PYTHON=python3
-COLAB_BACKEND_VERSION=next
-COLAB_DEBUG_ADAPTER_MUX_PATH=/usr/local/bin/dap_multiplexer
-COLAB_FILE_HANDLER_ADDR=localhost:3453
+ServalShell:~$ print environment
+translated bash: env
+COLAB_WARMUP_DEFAULTS=1
+LIBRARY_PATH=/usr/local/cuda/lib64/stubs
+PYTHONWARNINGS=ignore:::pip._internal.cli.base_command
+NV_LIBCUBLAS_VERSION=12.2.5.6-1
+VM_GCE_METADATA_HOST=169.254.169.253
+NV_NVPROF_DEV_PACKAGE=cuda-nvprof-12-2=12.2.142-1
+NV_CUDA_COMPAT_PACKAGE=cuda-compat-12-2
 COLAB_GPU=1
-COLAB_JUPYTER_IP=172.28.0.12
-COLAB_JUPYTER_TOKEN=
-COLAB_JUPYTER_TRANSPORT=ipc
-COLAB_KERNEL_MANAGER_PROXY_HOST=172.28.0.12
-COLAB_KERNEL_MANAGER_PROXY_PORT=6000
+GCS_READ_CACHE_BLOCK_SIZE_MB=16
+COLAB_BACKEND_VERSION=next
+LANGUAGE=en_US
+NV_CUDA_NSIGHT_COMPUTE_VERSION=12.2.2-1
+USE_AUTH_EPHEM=1
+MPLBACKEND=module://ipykernel.pylab.backend_inline
+HOSTNAME=894fd2ecd469
+SHLVL=0
+LD_LIBRARY_PATH=/usr/lib64-nvidia
 ...
 
 ServalShell:~$ print current user name
