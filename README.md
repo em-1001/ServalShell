@@ -69,6 +69,15 @@ $ python3 preprocess.py
 $ python3 train.py
 ```
 
+```sh
+Using device cuda
+[00:00:00] Pre-processing sequences
+Max length of source sentence: 44
+Max length of target sentence: 62
+Processing epoch 00: 100% 1046/1046 [01:40<00:00, 10.38it/s, loss=2.294]
+...
+```
+
 # How to run 
 1. **Install packages**   
 ```sh
