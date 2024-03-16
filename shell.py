@@ -34,7 +34,6 @@ def servalshell():
     prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
     while True:
         nl = input(prompt)
-        print("compiling...")
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
         _bash = translate(nl_preprocess)
 
