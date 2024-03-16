@@ -1,10 +1,3 @@
-"""해얄것
-1. echo "~" 개선하기 위해 휴리스틱 실패 했을 시 다른 함수 써보기
-2. 성능 테스트 더 해보기
-3. cd 문제 해결
-4. 결과가 없을 경우 RCS(recommended command structure) 보여주기
-"""
-
 import os
 import subprocess
 from translate import translate
@@ -41,6 +34,7 @@ def servalshell():
     prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
     while True:
         nl = input(prompt)
+        print("compiling...")
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
         _bash = translate(nl_preprocess)
 
@@ -68,7 +62,6 @@ def servalshell():
         except subprocess.CalledProcessError as e:
             print("\nrecommended command structure")
             print("-> " + str(_bash), end="\n\n")
-            # print("\033[91m" + "recommended command" + "\033[30m")
             print("recommended command")
             print("-> " + str(bash))
             print("-> " + str(bash2))
