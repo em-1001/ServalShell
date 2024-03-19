@@ -103,8 +103,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
 
             # get top k next words
             prob = model.project(out[:, -1])
-            topk_scores, topk_words = torch.topk(prob, beam_width, dim=1)
-            # print(topk_scores[0], topk_words[0])  
+            topk_scores, topk_words = torch.topk(prob, beam_width, dim=1) 
             
 
             for score, word_idx in zip(topk_scores[0], topk_words[0]):
@@ -115,7 +114,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
                     beam_eos = torch.cat(
                         [beam_input, torch.empty(1, 1).type_as(source).fill_(word_idx.item()).to(device)], dim=1
                     )
-                    eos_score = beam_score - torch.log(score).item()  # Negative log likelihood
+                    eos_score = beam_score - score.item()  # Negative log likelihood
                     eos_candidates.append([beam_eos, eos_score])
 
                     if global_eos_cnt == beam_width:
@@ -132,7 +131,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
                     new_beam_input = torch.cat(
                         [beam_input, torch.empty(1, 1).type_as(source).fill_(word_idx.item()).to(device)], dim=1
                     )
-                    new_score = beam_score - torch.log(score).item()  # Negative log likelihood
+                    new_score = beam_score - score.item()  # Negative log likelihood
                     next_candidates.append([new_beam_input, new_score])
 
         if global_eos_cnt == beam_width:
@@ -143,7 +142,12 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
         beams = next_candidates[:beam_width]
 
     # Select the beam with the highest score
-    print(eos_candidates)
+    # print(eos_candidates)
+    for text, score in eos_candidates:
+        print(text, score)
+
+    
+
     best_beam = min(eos_candidates, key=lambda x: x[1])
     return best_beam[0]
 
