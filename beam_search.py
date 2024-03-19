@@ -21,57 +21,11 @@ def load_data(file_path):
 def get_ds(config):
   ds_raw = load_data('/content/nl2bash-data.json')
 
-"""
-def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=2):
-    sos_idx = tokenizer_tgt.token_to_id('[SOS]')
-    eos_idx = tokenizer_tgt.token_to_id('[EOS]')
 
-    # Precompute the encoder output and reuse it for every step
-    encoder_output = model.encode(source, source_mask)
-    batch_size = encoder_output.size(0)
+def length_penalty(length, alpha=1.2, min_length=3):
+    return ((min_length + length) / (min_length + 1))**alpha
 
-    # Initialize beams
-    beams = [[torch.tensor(sos_idx).to(device), 0.0] for _ in range(beam_width)]
-
-    for _ in range(max_len):
-        next_candidates = []
-
-        for beam_input, beam_score in beams:
-            # If the beam has reached the EOS token, keep it as is
-            print(beam_input.shape)
-            if beam_input[-1] == eos_idx :
-                next_candidates.append([beam_input, beam_score])
-                continue
-
-            # build mask for target
-            decoder_mask = causal_mask(beam_input.size(0)).type_as(source_mask).to(device)
-
-            # calculate output
-            out = model.decode(encoder_output, source_mask, beam_input.unsqueeze(0), decoder_mask)
-
-            # get top k next words
-            prob = model.project(out[:, -1])
-            topk_scores, topk_words = torch.topk(prob, beam_width)
-
-            for score, word_idx in zip(topk_scores[0], topk_words[0]):
-                new_beam_input = torch.cat([beam_input, torch.tensor([word_idx.item()]).to(device)])
-                new_score = beam_score - torch.log(score).item()  # Negative log likelihood
-                next_candidates.append([new_beam_input, new_score])
-
-        # Sort the next candidates and select top k
-        next_candidates.sort(key=lambda x: x[1])
-        beams = next_candidates[:beam_width]
-
-        # Check if all beams have reached EOS
-        all_eos = all(beam[0][-1] == eos_idx for beam in beams)
-        if all_eos:
-            break
-
-    # Select the beam with the highest score
-    best_beam = min(beams, key=lambda x: x[1])
-    return best_beam[0]"""
-
-def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=2):
+def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=3):
     sos_idx = tokenizer_tgt.token_to_id('[SOS]')
     eos_idx = tokenizer_tgt.token_to_id('[EOS]')    
 
@@ -101,7 +55,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
             # get top k next words
             prob = model.project(out[:, -1])
             topk_scores, topk_words = torch.topk(prob, 2*beam_width-1) 
-            print(topk_scores[0], topk_words[0])
+            # print(topk_scores[0], topk_words[0])
 
             boundary = beam_width
             loop = 0
@@ -136,15 +90,12 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
         if eos_cnt == beam_width:
             break
 
-
     # Select the beam with the highest score
     # print(eos_candidates)
     for text, score in eos_candidates:
-        print(text, score)
+        print(text, score, len(text[0]), score/len(text[0]))
 
-    
-
-    best_beam = min(eos_candidates, key=lambda x: x[1])
+    best_beam = min(eos_candidates, key=lambda x: x[1]/length_penalty(len(x[0][0])))
     return best_beam[0]
 
 
