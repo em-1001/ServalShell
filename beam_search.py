@@ -93,7 +93,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
     # Select the beam with the highest score
     # print(eos_candidates)
     for text, score in eos_candidates:
-        print(text, score, len(text[0]), score/len(text[0]))
+        print(text, score, len(text[0]), score/length_penalty(len(text[0])))
 
     best_beam = min(eos_candidates, key=lambda x: x[1]/length_penalty(len(x[0][0])))
     return best_beam[0]
