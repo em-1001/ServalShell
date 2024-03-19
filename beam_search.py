@@ -79,21 +79,18 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
     encoder_output = model.encode(source, source_mask)
 
     # Initialize beams
-    beams = [[torch.empty(1, 1).fill_(sos_idx).type_as(source).to(device), 0.0] for _ in range(beam_width)]
+    beams = [[torch.empty(1, 1).fill_(sos_idx).type_as(source).to(device), 0.0]]
+    eos_cnt = 0 
     eos_candidates = []
-    global_eos_cnt = 0
-
+    
     for _ in range(max_len):
         next_candidates = []
 
-        eos_cnt = 0
-        
         for beam_input, beam_score in beams:
 
-            # If the beam has reached the EOS token, keep it as is
-            if beam_input.squeeze(0)[-1] == eos_idx :
-                next_candidates.append([beam_input, beam_score])
-                continue
+            #if beam_input[-1] == eos_idx :
+            #    next_candidates.append([beam_input, beam_score])
+            #    continue
 
             # build mask for target
             decoder_mask = causal_mask(beam_input.size(1)).type_as(source_mask).to(device)
@@ -103,43 +100,42 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
 
             # get top k next words
             prob = model.project(out[:, -1])
-            topk_scores, topk_words = torch.topk(prob, beam_width, dim=1) 
-            
+            topk_scores, topk_words = torch.topk(prob, 2*beam_width-1) 
+            print(topk_scores[0], topk_words[0])
 
+            boundary = beam_width
+            loop = 0
             for score, word_idx in zip(topk_scores[0], topk_words[0]):
+                if loop == boundary:
+                    break
+
+                new_beam_input = torch.cat(
+                    [beam_input, torch.empty(1, 1).type_as(source).fill_(word_idx.item()).to(device)], dim=1
+                )
+                new_score = beam_score - score.item()  # Negative log likelihood
+
                 if word_idx == eos_idx:
-                    global_eos_cnt += 1
+                    eos_candidates.append([new_beam_input, new_score])
+                    boundary += 1
                     eos_cnt += 1
-
-                    beam_eos = torch.cat(
-                        [beam_input, torch.empty(1, 1).type_as(source).fill_(word_idx.item()).to(device)], dim=1
-                    )
-                    eos_score = beam_score - score.item()  # Negative log likelihood
-                    eos_candidates.append([beam_eos, eos_score])
-
-                    if global_eos_cnt == beam_width:
-                        break 
-
-            if global_eos_cnt == beam_width:
-                break
-                
-            topk_scores, topk_words = torch.topk(prob, beam_width+eos_cnt, dim=1)
-            
-
-            for score, word_idx in zip(topk_scores[0], topk_words[0]):
-                if word_idx != eos_idx:
-                    new_beam_input = torch.cat(
-                        [beam_input, torch.empty(1, 1).type_as(source).fill_(word_idx.item()).to(device)], dim=1
-                    )
-                    new_score = beam_score - score.item()  # Negative log likelihood
+                    if eos_cnt == beam_width:
+                        break
+                else:
                     next_candidates.append([new_beam_input, new_score])
 
-        if global_eos_cnt == beam_width:
-            break
+                loop += 1
+
+            if eos_cnt == beam_width:
+                break
 
         # Sort the next candidates and select top k
         next_candidates.sort(key=lambda x: x[1])
         beams = next_candidates[:beam_width]
+
+        # Check if all beams have reached EOS
+        if eos_cnt == beam_width:
+            break
+
 
     # Select the beam with the highest score
     # print(eos_candidates)
@@ -221,7 +217,7 @@ def translate(sentence: str):
         encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
 
         # decode_output = greedy_decode(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)
-        decode_output = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=2)  
+        decode_output = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=3)  
 
     # convert ids to tokens
     return tokenizer_tgt.decode(decode_output.squeeze(0).detach().cpu().numpy())
