@@ -1,25 +1,5 @@
-# translate
-# reference : https://youtu.be/ISNdQcPhsts?si=F5xPY5JV92VNdKog
-# original code : https://github.com/hkproj/pytorch-transformer/blob/main/translate.py
-
-from pathlib import Path
-from config import get_config, get_weights_file_path
-from model import Transformer
-from tokenizers import Tokenizer
-from dataset import BilingualDataset, causal_mask
+from dataset import causal_mask
 import torch
-import sys
-from train import get_model, get_ds, run_validation
-
-
-def load_data(file_path):
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return data
-
-
-def get_ds(config):
-  ds_raw = load_data('/content/nl2bash-data.json')
 
 
 def length_penalty(length, alpha=1.2, min_length=3):
@@ -100,7 +80,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
 
 
 
-def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device):
+def greedy_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device):
     sos_idx = tokenizer_tgt.token_to_id('[SOS]')
     eos_idx = tokenizer_tgt.token_to_id('[EOS]')
 
@@ -129,46 +109,3 @@ def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_
             break
 
     return decoder_input.squeeze(0)
-
-
-def translate(sentence: str):
-    # Define the device, tokenizers, and model
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    config = get_config()
-    tokenizer_src = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_src']))))
-    tokenizer_tgt = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_tgt']))))
-    model = Transformer(tokenizer_src.get_vocab_size(), tokenizer_tgt.get_vocab_size(), config['seq_len'], config['seq_len'], config['d_model']).to(device)
-
-    # Load the pretrained weights
-    model_filename = "./tellina21epoch.pth" # get_weights_file_path(config)
-    state = torch.load(model_filename)
-    model.load_state_dict(state['model_state_dict'])
-
-    # translate the sentence
-    model.eval()
-    with torch.no_grad():
-        sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)
-        eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)
-        pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)
-
-        enc_input_tokens = tokenizer_src.encode(sentence).ids
-
-        enc_num_padding_tokens = config['seq_len'] - len(enc_input_tokens) - 2
-
-
-        encoder_input = torch.cat(
-            [
-               sos_token,
-               torch.tensor(enc_input_tokens, dtype=torch.int64),
-               eos_token,
-               torch.tensor([pad_token] * enc_num_padding_tokens, dtype=torch.int64)
-           ]
-        )
-        source_mask = (encoder_input != pad_token).unsqueeze(0).int()
-        encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
-
-        # decode_output = greedy_decode(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)
-        decode_output = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=3)  
-
-    # convert ids to tokens
-    return tokenizer_tgt.decode(decode_output.squeeze(0).detach().cpu().numpy())
