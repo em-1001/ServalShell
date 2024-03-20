@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 
 
 def servalshell():
-    cat = """
+    servalcat = """
        _
        \`*-.
         )  _`-.
@@ -30,7 +30,7 @@ def servalshell():
       .*' /  .*' ; .*`- +'  `*'
       `*-*   `*-*  `*-*'
     """
-    print(cat)
+    print(servalcat)
     prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
     while True:
         nl = input(prompt)
