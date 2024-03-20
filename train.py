@@ -64,7 +64,7 @@ def run_validation(model, config, validation_ds, tokenizer_src, tokenizer_tgt, m
                 0) == 1, "Batch size must be 1 for validation"
 
             if config['beam_search']:
-                model_out = beam_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=config['beam_width'])
+                model_out = beam_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=config['beam_width']).squeeze(0)
             else:
                 model_out = greedy_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device)
 
