@@ -200,7 +200,7 @@ def train_model(config):
 
   optimizer = torch.optim.Adam(model.parameters(), betas=(0.9, 0.998), lr=config['lr'], eps=1e-9)
 
-  if False: # config['cos_anneal']:
+  if False: # config['cos_annealing']:
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=120)
 
   initial_epoch = 0
@@ -216,7 +216,7 @@ def train_model(config):
   loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer_src.token_to_id('[PAD]'), label_smoothing=0.1).to(device)
 
   for epoch in range(initial_epoch, config['num_epochs']+1):
-    if False: # config['cos_anneal']:
+    if False: # config['cos_annealing']:
       print(scheduler._last_lr)
     model.train()
     batch_iterator = tqdm(train_dataloader, desc=f"Processing epoch {epoch:02d}")
@@ -256,7 +256,7 @@ def train_model(config):
 
       global_step += 1
 
-    if False: # config['cos_anneal']:
+    if False: # config['cos_annealing']:
       scheduler.step()
 
     # Run validation at the end of every epoch
