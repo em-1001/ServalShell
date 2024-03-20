@@ -15,8 +15,9 @@ from torch.utils.data import Dataset, DataLoader
 
 from dataset import BilingualDataset, causal_mask
 from model import Transformer
-
 from config import get_weights_file_path, get_config
+from translate import translate
+
 
 from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
@@ -270,6 +271,59 @@ def train_model(config):
         'optimizer_state_dict': optimizer.state_dict(),
         'global_step': global_step
     }, model_filename)
+
+    if epoch == 1:# epoch > 0 and epoch % 3 == 0:
+      nl = 'print current user name'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'copies "file.txt" to "null.txt"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'finds all files with a ".txt" extension in the current directory'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'prints "Hello, World!" on the terminal'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'list current dictory files'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'Prints the current working directory.'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'gives execute permission to "script.sh"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'changes the owner and group of "file.txt" to "user:group"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'moves "file.txt" to "./bin"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'deletes a file named "file.txt"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'creates a directory named "my_folder"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'changes to the "Documents" directory'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
+
+      nl = 'displays the content of "file.txt"'
+      nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
+      translate(nl)
 
 
 if __name__ == '__main__':
