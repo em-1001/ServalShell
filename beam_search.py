@@ -22,10 +22,6 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
 
         for beam_input, beam_score in beams:
 
-            #if beam_input[-1] == eos_idx :
-            #    next_candidates.append([beam_input, beam_score])
-            #    continue
-
             # build mask for target
             decoder_mask = causal_mask(beam_input.size(1)).type_as(source_mask).to(device)
 
@@ -35,7 +31,6 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
             # get top k next words
             prob = model.project(out[:, -1])
             topk_scores, topk_words = torch.topk(prob, 2*beam_width-1) 
-            # print(topk_scores[0], topk_words[0])
 
             boundary = beam_width
             loop = 0
@@ -71,9 +66,8 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
             break
 
     # Select the beam with the highest score
-    # print(eos_candidates)
-    for text, score in eos_candidates:
-        print(text, score, len(text[0]), score/length_penalty(len(text[0])))
+    #for text, score in eos_candidates:
+    #    print(text, score, len(text[0]), score/length_penalty(len(text[0])))
 
     best_beam = min(eos_candidates, key=lambda x: x[1]/length_penalty(len(x[0][0])))
     return best_beam[0]
