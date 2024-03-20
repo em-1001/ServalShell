@@ -17,6 +17,7 @@ from dataset import BilingualDataset, causal_mask
 from model import Transformer
 from config import get_weights_file_path, get_config
 from translate import translate
+from beam_search import greedy_search, beam_search, length_penalty
 
 
 from tokenizers import Tokenizer
@@ -33,7 +34,6 @@ from pathlib import Path
 
 import json
 from sklearn.model_selection import train_test_split
-from beam_search import greedy_search, beam_search, length_penalty
 
 
 def run_validation(model, config, validation_ds, tokenizer_src, tokenizer_tgt, max_len, device, print_msg, global_step, writer, num_examples=2):
