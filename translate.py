@@ -6,20 +6,8 @@ from pathlib import Path
 from config import get_config, get_weights_file_path
 from model import Transformer
 from tokenizers import Tokenizer
-from dataset import BilingualDataset
 import torch
-import sys
-from train import get_model, get_ds, run_validation
-
-
-def load_data(file_path):
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return data
-
-
-def get_ds(config):
-  ds_raw = load_data('/content/nl2bash-data.json')
+from beam_search import greedy_search, beam_search, length_penalty
 
 
 def translate(sentence: str):
@@ -58,28 +46,10 @@ def translate(sentence: str):
         source_mask = (encoder_input != pad_token).unsqueeze(0).int()
         encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
 
-        # Initialize the decoder input with the sos token
-        decoder_input = torch.empty(1, 1).fill_(tokenizer_tgt.token_to_id('[SOS]')).type_as(encoder_input).to(device)
-
-        def causal_mask(size):
-          mask = torch.triu(torch.ones(1, size, size), diagonal=1).type(torch.int)
-          return mask == 0
-
-        # Generate the translation word by word
-        while decoder_input.size(1) < config['seq_len']:
-            # build mask for target and calculate output
-            decoder_mask = causal_mask(decoder_input.size(1)).type_as(source_mask).to(device)
-            out = model.decode(encoder_output.to(device), source_mask.to(device), decoder_input.to(device), decoder_mask.to(device))
-
-            # project next token
-            prob = model.project(out[:, -1])
-            _, next_word = torch.max(prob, dim=1)
-            decoder_input = torch.cat([decoder_input, torch.empty(1, 1).type_as(encoder_input).fill_(next_word.item()).to(device)], dim=1)
-
-            # break if we predict the end of sentence token
-            if next_word == tokenizer_tgt.token_to_id('[EOS]'):
-                break
+        if config['beam_search']:
+            decode_output = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=config['beam_width'])
+        else: 
+            decode_output = greedy_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)  
 
     # convert ids to tokens
-    return tokenizer_tgt.decode(decoder_input.squeeze(0).detach().cpu().numpy())
-
+    return tokenizer_tgt.decode(decode_output.squeeze(0).detach().cpu().numpy())
