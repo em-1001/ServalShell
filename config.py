@@ -18,7 +18,9 @@ def get_config():
       "preload": None,
       "tokenizer_file": "tokenizer_{0}.json",
       "experiment_name": "./tmodel",
-      "cos_anneal": False
+      "cos_annealing": False,
+      "beam_search": True,
+      "beam_width": 3
   }
 
 
