@@ -98,6 +98,12 @@ $ unzip  -qq /content/ServalShell/nlc2bash-21epoch.zip
 $ ./servalshell.sh
 ```
 
+# Options 
+|option|description|
+|-|-|
+|`-d command`|Execute bash commands directly|
+|`-q`| Quit Servalshell| 
+
 # Citation
 If you used Tellina in your work, please cite
 ```
