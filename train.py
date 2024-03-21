@@ -262,7 +262,7 @@ def train_model(config):
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
       translate(nl)
 
-      nl = 'list current dictory files'
+      nl = 'list current directory files in long format'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
       translate(nl)
 
