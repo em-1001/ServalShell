@@ -75,14 +75,6 @@ $ python3 preprocess.py
 $ python3 train.py
 ```
 
-```sh
-Using device: cuda
-Device name: Tesla T4
-Device memory: 14.74810791015625 GB
-[00:00:00] Pre-processing sequences       0        /        0
-...
-```
-
 # How to run 
 1. **Install packages**   
 ```sh
