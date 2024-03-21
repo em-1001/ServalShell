@@ -245,7 +245,7 @@ def train_model(config):
         'global_step': global_step
     }, model_filename)
 
-    if epoch > 0 and epoch % 1 == 0:
+    if epoch > 0 and epoch % 5 == 0:
       nl = 'print current user name'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
       print(translate(nl)[0])
