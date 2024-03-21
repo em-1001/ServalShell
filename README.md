@@ -47,6 +47,11 @@ SHLVL=0
 LD_LIBRARY_PATH=/usr/lib64-nvidia
 ...
 
+ServalShell:~$ Case-insensitive search all existing environment variables and their values for "shell".
+Translated Bash: env | grep -i "shell"
+SHELL=/bin/bash
+PWD=/content/ServalShell
+
 ServalShell:~$ print current user name
 translated bash: whoami
 root
