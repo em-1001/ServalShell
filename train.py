@@ -17,7 +17,6 @@ from dataset import BilingualDataset, causal_mask
 from model import Transformer
 from config import get_weights_file_path, get_config
 from translate import translate
-from beam_search import greedy_search, beam_search, length_penalty
 
 
 from tokenizers import Tokenizer
@@ -34,6 +33,7 @@ from pathlib import Path
 
 import json
 from sklearn.model_selection import train_test_split
+from beam_search import greedy_search, beam_search, length_penalty
 
 
 def run_validation(model, config, validation_ds, tokenizer_src, tokenizer_tgt, max_len, device, print_msg, global_step, writer, num_examples=2):
@@ -64,7 +64,7 @@ def run_validation(model, config, validation_ds, tokenizer_src, tokenizer_tgt, m
                 0) == 1, "Batch size must be 1 for validation"
 
             if config['beam_search']:
-                model_out = beam_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=config['beam_width']).squeeze(0)
+                model_out = beam_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=config['beam_width'])[0].squeeze(0)
             else:
                 model_out = greedy_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device)
 
@@ -174,12 +174,12 @@ def train_model(config):
 
   optimizer = torch.optim.Adam(model.parameters(), betas=(0.9, 0.998), lr=config['lr'], eps=1e-9)
 
-  if False: # config['cos_annealing']:
+  if config['cos_annealing']:
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=120)
 
   initial_epoch = 0
   global_step = 0
-  if False: # config['preload']:
+  if config['preload']:
     model_filename = get_weights_file_path(config)
     print(f"Preloading model {model_filename}")
     state = torch.load(model_filename)
@@ -190,7 +190,7 @@ def train_model(config):
   loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer_src.token_to_id('[PAD]'), label_smoothing=0.1).to(device)
 
   for epoch in range(initial_epoch, config['num_epochs']+1):
-    if False: # config['cos_annealing']:
+    if config['cos_annealing']:
       print(scheduler._last_lr)
     model.train()
     batch_iterator = tqdm(train_dataloader, desc=f"Processing epoch {epoch:02d}")
@@ -230,7 +230,7 @@ def train_model(config):
 
       global_step += 1
 
-    if False: # config['cos_annealing']:
+    if config['cos_annealing']:
       scheduler.step()
 
     # Run validation at the end of every epoch
@@ -245,58 +245,58 @@ def train_model(config):
         'global_step': global_step
     }, model_filename)
 
-    if epoch > 0 and epoch % 2 == 0:
+    if epoch > 0 and epoch % 1 == 0:
       nl = 'print current user name'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'copies "file.txt" to "null.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'finds all files with a ".txt" extension in the current directory'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'prints "Hello, World!" on the terminal'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
-      nl = 'list current directory files in long format'
+      nl = 'list current dictory files'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'Prints the current working directory.'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'gives execute permission to "script.sh"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'changes the owner and group of "file.txt" to "user:group"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'moves "file.txt" to "./bin"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'deletes a file named "file.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'creates a directory named "my_folder"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'changes to the "Documents" directory'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
       nl = 'displays the content of "file.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      translate(nl)
+      print(translate(nl)[0])
 
 
 if __name__ == '__main__':
