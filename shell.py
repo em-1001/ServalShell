@@ -12,8 +12,23 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
+def post_processing(nl, _bash):
+    node = bash_parser(_bash)
+    _, _, nl_filler= tokenizer.ner_tokenizer(nl)[1]
+    slot_filling.heuristic_slot_filling(node, nl_filler)
+
+    bash = ast2command(node)
+
+    bash2 = slot_filling.stupid_slot_matching(nl, _bash)
+
+    if _bash == bash:
+        bash = bash2
+
+    return bash
+
+
 def servalshell():
-    servalcat = """
+    serval_cat = """
        _
        \`*-.
         )  _`-.
@@ -30,40 +45,36 @@ def servalshell():
       .*' /  .*' ; .*`- +'  `*'
       `*-*   `*-*  `*-*'
     """
-    print(servalcat)
+    print(serval_cat)
     prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
     while True:
         nl = input(prompt)
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
         _bash = translate(nl_preprocess)
 
-        node = bash_parser(_bash)
-        _, _, nl_filler= tokenizer.ner_tokenizer(nl)[1]
-        slot_filling.heuristic_slot_filling(node, nl_filler)
+        bash_list = []
+        for cmd in _bash:
+            try:
+                bash = post_processing(nl, cmd)
+                bash_list.append(bash)
+            except:
+                continue
+            
+        if len(bash_list) == 0:
+            print("Failed at Abstract syntax tree...")
+            print("\n")
+            continue
 
+        print("translated bash: " + str(bash_list[0]))
         try:
-            bash = ast2command(node)
-        except:
-            print("False", end="\n\n")
-            continue    
-
-        bash2 = slot_filling.stupid_slot_matching(nl, _bash)
-
-        if _bash == bash:
-            bash = bash2
-            print("translated bash: " + str(bash2))
-        else:
-            print("translated bash: " + str(bash))
-
-        try:
-            output = subprocess.check_output(bash, shell=True, text=True)
+            output = subprocess.check_output(bash_list[0], shell=True, text=True)
             print(output)
         except subprocess.CalledProcessError as e:
-            print("\nrecommended command structure")
-            print("-> " + str(_bash), end="\n\n")
-            print("recommended command")
-            print("-> " + str(bash))
-            print("-> " + str(bash2))
-            print("")
+            print("\033[91m" + "\nRecommended Command Structure" + "\033[30m")
+            for rcs in _bash:
+                print(rcs)
+            print("\n")
 
-servalshell()
+
+if __name__ == '__main__':
+    servalshell()
