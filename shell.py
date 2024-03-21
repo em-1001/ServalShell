@@ -49,6 +49,23 @@ def servalshell():
     prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
     while True:
         nl = input(prompt)
+
+        nl_split = nl.split(' ')
+
+        # directly enter bash commands: -d `command`
+        if nl_split[0] == '-d':
+          direct_bash = nl_split[1:]
+          try:
+            output = subprocess.check_output(direct_bash, shell=True, text=True)
+            print(output)
+          except subprocess.CalledProcessError as e:
+            print(e)
+          continue
+
+        # quit the ServalShell
+        elif nl_split[0] == '-q':
+          break
+            
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
         _bash = translate(nl_preprocess)
 
