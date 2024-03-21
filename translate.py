@@ -48,8 +48,13 @@ def translate(sentence: str):
 
         if config['beam_search']:
             decode_output = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=config['beam_width'])
-        else: 
-            decode_output = greedy_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)  
+        else:
+            decode_output = greedy_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)
 
     # convert ids to tokens
-    return tokenizer_tgt.decode(decode_output.squeeze(0).detach().cpu().numpy())
+    if config['beam_search']:
+        translated = [tokenizer_tgt.decode(decode_output[i].squeeze(0).detach().cpu().numpy()) for i in range(config['beam_width'])]
+    else:
+        translated = [tokenizer_tgt.decode(decode_output.squeeze(0).detach().cpu().numpy())]
+
+    return translated
