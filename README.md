@@ -101,8 +101,9 @@ $ ./servalshell.sh
 # Options 
 |option|description|
 |-|-|
-|`-d command`|Execute bash commands directly|
-|`-q`| Quit Servalshell| 
+|-d [command], <br> --direct [command]|Execute bash command directly|
+|-q, --quit|Quit Servalshell| 
+|-h, --help|?|
 
 # Citation
 If you used Tellina in your work, please cite
