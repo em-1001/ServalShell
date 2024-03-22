@@ -48,13 +48,15 @@ def servalshell():
     print(serval_cat)
     prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
     while True:
+        recommend_flag = 0
+
         nl = input(prompt)
 
         nl_split = nl.split(' ')
 
         # Execute bash command directly
         if nl_split[0] == '-d' or nl_split[0] == '--direct':
-          direct_bash = nl_split[1:]
+          direct_bash = ' '.join(nl_split[1:])
           try:
             output = subprocess.check_output(direct_bash, shell=True, text=True)
             print(output)
@@ -67,10 +69,16 @@ def servalshell():
           print("If you enter a command in natural language, the program automatically translates it into a bash command and executes it.")
           print("If execution fails because the bash command translated by the model is incorrect, It will recommend several command structures.")
           print("Additionally, the following options are available.\n")
-          print("-d [command],  --direct [command]         Execute bash command directly")
-          print("-h,  --help                               Describes usage and options")
-          print("-q,  --quit                               Quit Servalshell")
+          print("-d [cmd],  --direct [cmd]              Execute bash command directly")
+          print("-r [nl],  --recommend [nl]             Ensure that the Recommended Command Structure is output when the command execution succeeds")
+          print("-h,  --help                            Describes usage and options")
+          print("-q,  --quit                            Quit Servalshell")
           continue
+        
+        # Ensure that the Recommended Command Structure is output when the command execution succeeds.
+        elif nl_split[0] == '-r' or nl_split[0] == '--recommend':
+            recommend_flag = 1
+            nl = ' '.join(nl_split[1:])
 
         # Quit Servalshell
         elif nl_split[0] == '-q' or nl_split[0] == '--quit':
@@ -96,6 +104,13 @@ def servalshell():
         try:
             output = subprocess.check_output(bash_list[0], shell=True, text=True)
             print(output)
+
+            if recommend_flag == 1:
+                print("\033[91m" + "\nRecommended Command Structure" + "\033[30m")
+                for rcs in _bash:
+                    print(rcs)
+                print("\n")
+
         except subprocess.CalledProcessError as e:
             print("\033[91m" + "\nRecommended Command Structure" + "\033[30m")
             for rcs in _bash:
