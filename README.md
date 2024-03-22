@@ -95,7 +95,8 @@ $ ./servalshell.sh
 # Options 
 |option|description|
 |-|-|
-|-d [command], <br> --direct [command]|Execute bash command directly|
+|-d [cmd] , <br> --direct [cmd]|Execute bash command directly|
+|-r [nl] , <br> --recommend [nl]|Even if the command execution is successful, <br> Recommended Command Structure is displayed|
 |-h, --help|Describes usage and options|
 |-q, --quit|Quit Servalshell| 
 
