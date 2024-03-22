@@ -52,8 +52,8 @@ def servalshell():
 
         nl_split = nl.split(' ')
 
-        # directly enter bash commands: -d [command]
-        if nl_split[0] == '-d':
+        # Execute bash command directly
+        if nl_split[0] == '-d' or nl_split[0] == '--direct':
           direct_bash = nl_split[1:]
           try:
             output = subprocess.check_output(direct_bash, shell=True, text=True)
@@ -63,15 +63,15 @@ def servalshell():
           continue
 
         # Describes usage and options
-        elif nl_split[0] == '-h':
+        elif nl_split[0] == '-h' or nl_split[0] == '--help':
           print("If you enter a command in natural language, the program automatically translates it into a bash command and executes it. \nAdditionally, the following options are available.\n")
           print("-d [command],  --direct [command]         Execute bash command directly")
           print("-h,  --help                               Describes usage and options")
           print("-q,  --quit                               Quit Servalshell")
           continue
 
-        # quit the ServalShell
-        elif nl_split[0] == '-q':
+        # Quit Servalshell
+        elif nl_split[0] == '-q' or nl_split[0] == '--quit':
           break
             
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
