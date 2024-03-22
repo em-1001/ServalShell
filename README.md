@@ -47,12 +47,6 @@ SHLVL=0
 LD_LIBRARY_PATH=/usr/lib64-nvidia
 ...
 
-ServalShell:~$ Case-insensitive search all existing environment variables and their values for "kernel".
-translated bash: env | grep -i "kernel"
-MPLBACKEND=module://ipykernel.pylab.backend_inline
-COLAB_KERNEL_MANAGER_PROXY_HOST=172.28.0.12
-COLAB_KERNEL_MANAGER_PROXY_PORT=6000
-
 ServalShell:~$ print current user name
 translated bash: whoami
 root
