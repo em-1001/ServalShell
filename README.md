@@ -96,7 +96,7 @@ $ ./servalshell.sh
 |option|description|
 |-|-|
 |-d [command], <br> --direct [command]|Execute bash command directly|
-|-h, --help|?|
+|-h, --help|Describes usage and options|
 |-q, --quit|Quit Servalshell| 
 
 # Citation
