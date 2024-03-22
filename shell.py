@@ -62,6 +62,7 @@ def servalshell():
             print(output)
           except subprocess.CalledProcessError as e:
             print(e)
+            print("")
           continue
 
         # Describes usage and options
