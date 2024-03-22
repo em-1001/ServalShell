@@ -70,12 +70,12 @@ def servalshell():
           print("If execution fails because the bash command translated by the model is incorrect, It will recommend several command structures.")
           print("Additionally, the following options are available.\n")
           print("-d [cmd],  --direct [cmd]              Execute bash command directly")
-          print("-r [nl],  --recommend [nl]             Ensure that the Recommended Command Structure is output when the command execution succeeds")
+          print("-r [nl],  --recommend [nl]             Even if the command execution is successful, Recommended Command Structure is displayed")
           print("-h,  --help                            Describes usage and options")
           print("-q,  --quit                            Quit Servalshell")
           continue
         
-        # Ensure that the Recommended Command Structure is output when the command execution succeeds.
+        # Even if the command execution is successful, Recommended Command Structure is displayed
         elif nl_split[0] == '-r' or nl_split[0] == '--recommend':
             recommend_flag = 1
             nl = ' '.join(nl_split[1:])
