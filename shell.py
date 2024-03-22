@@ -52,7 +52,7 @@ def servalshell():
 
         nl_split = nl.split(' ')
 
-        # directly enter bash commands: -d `command`
+        # directly enter bash commands: -d [command]
         if nl_split[0] == '-d':
           direct_bash = nl_split[1:]
           try:
@@ -60,6 +60,14 @@ def servalshell():
             print(output)
           except subprocess.CalledProcessError as e:
             print(e)
+          continue
+
+        # Describes usage and options
+        elif nl_split[0] == '-h':
+          print("If you enter a command in natural language, the program automatically translates it into a bash command and executes it. \nAdditionally, the following options are available.\n")
+          print("-d [command],  --direct [command]         Execute bash command directly")
+          print("-h,  --help                               Describes usage and options")
+          print("-q,  --quit                               Quit Servalshell")
           continue
 
         # quit the ServalShell
