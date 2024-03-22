@@ -282,7 +282,7 @@ def train_model(config):
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
       print(translate(nl)[0])
 
-      nl = 'deletes a file named "file.txt"'
+      nl = 'remove file "flag.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
       print(translate(nl)[0])
 
