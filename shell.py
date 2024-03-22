@@ -73,6 +73,7 @@ def servalshell():
           print("-r [nl],  --recommend [nl]             Even if the command execution is successful, Recommended Command Structure is displayed")
           print("-h,  --help                            Describes usage and options")
           print("-q,  --quit                            Quit Servalshell")
+          print("")
           continue
         
         # Even if the command execution is successful, Recommended Command Structure is displayed
@@ -97,7 +98,7 @@ def servalshell():
             
         if len(bash_list) == 0:
             print("Failed at Abstract syntax tree...")
-            print("\n")
+            print("")
             continue
 
         print("translated bash: " + str(bash_list[0]))
@@ -109,12 +110,13 @@ def servalshell():
                 print("\033[91m" + "Recommended Command Structure" + "\033[30m")
                 for rcs in _bash:
                     print(rcs)
+                print("")
 
         except subprocess.CalledProcessError as e:
             print("\033[91m" + "\nRecommended Command Structure" + "\033[30m")
             for rcs in _bash:
                 print(rcs)
-            print("\n")
+            print("")
 
 
 if __name__ == '__main__':
