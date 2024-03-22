@@ -64,7 +64,9 @@ def servalshell():
 
         # Describes usage and options
         elif nl_split[0] == '-h' or nl_split[0] == '--help':
-          print("If you enter a command in natural language, the program automatically translates it into a bash command and executes it. \nAdditionally, the following options are available.\n")
+          print("If you enter a command in natural language, the program automatically translates it into a bash command and executes it.")
+          print("If execution fails because the bash command translated by the model is incorrect, It will recommend several command structures.")
+          print("Additionally, the following options are available.\n")
           print("-d [command],  --direct [command]         Execute bash command directly")
           print("-h,  --help                               Describes usage and options")
           print("-q,  --quit                               Quit Servalshell")
