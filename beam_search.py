@@ -22,13 +22,10 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
 
         for beam_input, beam_score in beams:
 
-            # build mask for target
             decoder_mask = causal_mask(beam_input.size(1)).type_as(source_mask).to(device)
 
-            # calculate output
             out = model.decode(encoder_output, source_mask, beam_input, decoder_mask)
 
-            # get top k next words
             prob = model.project(out[:, -1])
             topk_scores, topk_words = torch.topk(prob, 2*beam_width-1)
 
@@ -57,11 +54,9 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
             if eos_cnt == beam_width:
                 break
 
-        # Sort the next candidates and select top k
         next_candidates.sort(key=lambda x: x[1])
         beams = next_candidates[:beam_width]
 
-        # Check if all beams have reached EOS
         if eos_cnt == beam_width:
             break
 
