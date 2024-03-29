@@ -45,8 +45,8 @@ def servalshell():
       .*' /  .*' ; .*`- +'  `*'
       `*-*   `*-*  `*-*'
     """
-    print(serval_cat)
-    prompt = '\033[92m' + 'ServalShell' + '\033[30m' + ':~$ '
+    print('\033[92m' + serval_cat)
+    prompt = '\033[32m' + 'ServalShell' + '\033[92m' + ':~$ '
     while True:
         recommend_flag = 0
 
