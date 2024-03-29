@@ -108,13 +108,13 @@ def servalshell():
             print(output)
 
             if recommend_flag == 1:
-                print("\033[91m" + "Recommended Command Structure" + "\033[30m")
+                print("Recommended Command Structure" + "\033[92m")
                 for rcs in _bash:
                     print(rcs)
                 print("")
 
         except subprocess.CalledProcessError as e:
-            print("\033[91m" + "\nRecommended Command Structure" + "\033[30m")
+            print("\nRecommended Command Structure" + "\033[92m")
             for rcs in _bash:
                 print(rcs)
             print("")
