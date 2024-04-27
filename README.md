@@ -1,6 +1,6 @@
 # ServalShell
 
-```c
+```
 /content# ./servalshell.sh
 Bashlint grammar set up (124 utilities)
 
