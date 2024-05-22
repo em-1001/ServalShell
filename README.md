@@ -31,7 +31,7 @@ ServalShell:~$ print current user name
 translated bash: whoami
 root
 
-ServalShell:~$ ▎
+ServalShell:~$ ▯ 
 ```
 **ServalShell** is an nlc2bash program created by learning the Transformer model proposed in **"Attention Is All You Need"** 2017 research paper. I implemented the Transformer model myself by referring to the **paper** and **Umar Jamil's video**.
 For model learning, refer to the **"NL2CMD: An Updated Workflow for Natural
