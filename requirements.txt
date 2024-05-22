@@ -10,4 +10,4 @@ six==1.16.0
 tensorflow==2.15.0
 tokenizers==0.15.2
 torch==2.1.0+cu121
-tqdm==4.66.2
+tqdm==4.66.3
