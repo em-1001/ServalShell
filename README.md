@@ -25,35 +25,19 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
          ; '   : :`-:     _.`* ;
       .*' /  .*' ; .*`- +'  `*' 
       `*-*   `*-*  `*-*'
-                                          
-ServalShell:~$ print environment
-translated bash: env
-COLAB_WARMUP_DEFAULTS=1
-LIBRARY_PATH=/usr/local/cuda/lib64/stubs
-PYTHONWARNINGS=ignore:::pip._internal.cli.base_command
-NV_LIBCUBLAS_VERSION=12.2.5.6-1
-VM_GCE_METADATA_HOST=169.254.169.253
-NV_NVPROF_DEV_PACKAGE=cuda-nvprof-12-2=12.2.142-1
-NV_CUDA_COMPAT_PACKAGE=cuda-compat-12-2
-COLAB_GPU=1
-GCS_READ_CACHE_BLOCK_SIZE_MB=16
-COLAB_BACKEND_VERSION=next
-LANGUAGE=en_US
-NV_CUDA_NSIGHT_COMPUTE_VERSION=12.2.2-1
-USE_AUTH_EPHEM=1
-MPLBACKEND=module://ipykernel.pylab.backend_inline
-HOSTNAME=894fd2ecd469
-SHLVL=0
-LD_LIBRARY_PATH=/usr/lib64-nvidia
-...
+
 
 ServalShell:~$ print current user name
 translated bash: whoami
 root
+
+ServalShell:~$ ▎
 ```
 **ServalShell** is an nlc2bash program created by learning the Transformer model proposed in **"Attention Is All You Need"** 2017 research paper. I implemented the Transformer model myself by referring to the **paper** and **Umar Jamil's video**.
 For model learning, refer to the **"NL2CMD: An Updated Workflow for Natural
 Language to Bash Commands Translation"** paper. **Tellina-Tool** was used for pre-processing and post-processing, and **Hugging Face** was used for tokenizer and dataset.
+
+<img src="https://github.com/em-1001/ServalShell/blob/master/Data/servalcat.jpg" height="50%" width="50%">
 
 # How to train 
 1. **Install packages**   
