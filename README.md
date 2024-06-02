@@ -37,7 +37,6 @@ ServalShell:~$ ▯
 For model learning, refer to the **"NL2CMD: An Updated Workflow for Natural
 Language to Bash Commands Translation"** paper. **Tellina-Tool** was used for pre-processing and post-processing, and **Hugging Face** was used for tokenizer and dataset.
 
-<img src="https://github.com/em-1001/ServalShell/blob/master/Data/servalcat.jpg" height="50%" width="50%">
 
 # How to train 
 1. **Install packages**   
@@ -107,4 +106,5 @@ If you used Tellina in your work, please cite
 }
 ```
 
+<img src="https://github.com/em-1001/ServalShell/blob/master/Data/servalcat.jpg">
 
