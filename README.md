@@ -106,5 +106,4 @@ If you used Tellina in your work, please cite
 }
 ```
 
-<img src="https://github.com/em-1001/ServalShell/blob/master/Data/servalcat.jpg">
 
