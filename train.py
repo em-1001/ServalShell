@@ -64,9 +64,9 @@ def run_validation(model, config, validation_ds, tokenizer_src, tokenizer_tgt, m
                 0) == 1, "Batch size must be 1 for validation"
 
             if config['beam_search']:
-                model_out = beam_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=config['beam_width'])[0].squeeze(0)
+                model_out = beam_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device, beam_width=config['beam_width'])[0][0].squeeze(0)
             else:
-                model_out = greedy_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device)
+                model_out, _ = greedy_search(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device)
 
             source_text = batch["src_text"][0]
             target_text = batch["tgt_text"][0]
@@ -204,7 +204,7 @@ def train_model(config):
 
       # Run the tensors through the transformer
       encoder_output = model.encode(encoder_input, encoder_mask) # (B, Seq_Len, d_model)
-      decoder_output = model.decode(encoder_output, encoder_mask, decoder_input, decoder_mask) # (B, Seq_Len, d_model)
+      decoder_output, _ = model.decode(encoder_output, encoder_mask, decoder_input, decoder_mask) # (B, Seq_Len, d_model)
       proj_output = model.project(decoder_output) # (B, Seq_len, tgt_vocab_size)
 
       label = batch['label'].to(device) # (B, Seq_Len)
@@ -245,58 +245,60 @@ def train_model(config):
         'global_step': global_step
     }, model_filename)
 
+    """
     if epoch > 0 and epoch % 5 == 0:
       nl = 'print current user name'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'copies "file.txt" to "null.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'finds all files with a ".txt" extension in the current directory'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'prints "Hello, World!" on the terminal'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'list current dictory files'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'Prints the current working directory.'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'gives execute permission to "script.sh"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'changes the owner and group of "file.txt" to "user:group"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'moves "file.txt" to "./bin"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'remove file "flag.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'creates a directory named "my_folder"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'changes to the "Documents" directory'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
 
       nl = 'displays the content of "file.txt"'
       nl = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-      print(translate(nl)[0])
+      print(translate(nl)[0][0])
+    """
 
 
 if __name__ == '__main__':
