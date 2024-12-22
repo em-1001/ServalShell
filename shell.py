@@ -87,7 +87,7 @@ def servalshell():
           break
             
         nl_preprocess = ' '.join(tokenizer.ner_tokenizer(nl)[0])
-        _bash = translate(nl_preprocess)
+        _bash, _ = translate(nl_preprocess)
 
         bash_list = []
         for cmd in _bash:
