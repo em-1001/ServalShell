@@ -39,17 +39,16 @@ def translate(sentence: str):
             [
                sos_token,
                torch.tensor(enc_input_tokens, dtype=torch.int64),
-               eos_token,
-               torch.tensor([pad_token] * enc_num_padding_tokens, dtype=torch.int64)
+               eos_token
            ]
         )
         source_mask = (encoder_input != pad_token).unsqueeze(0).int()
-        encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
+        # encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
 
         if config['beam_search']:
-            decode_output = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=config['beam_width'])
+            decode_output, attention_score = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=config['beam_width'])
         else:
-            decode_output = greedy_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)
+            decode_output, attention_score = greedy_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device)
 
     # convert ids to tokens
     if config['beam_search']:
@@ -57,4 +56,4 @@ def translate(sentence: str):
     else:
         translated = [tokenizer_tgt.decode(decode_output.squeeze(0).detach().cpu().numpy())]
 
-    return translated
+    return translated, attention_score
