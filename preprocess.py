@@ -22,7 +22,7 @@ def pre_processing(config):
     ds_raw = load_data('./Data/nl2bash/nl2bash.json')
 
     # data pre-processing
-    print("data pre processing...")
+    print("data pre-processing...")
     for item in ds_raw.values():
         item[config['lang_src']] = ' '.join(tokenizer.ner_tokenizer(item[config['lang_src']])[0])
         item[config['lang_tgt']] = ' '.join(bash_tokenizer(item[config['lang_tgt']], loose_constraints=True, arg_type_only=True))
