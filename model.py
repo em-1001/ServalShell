@@ -62,17 +62,19 @@ class MultiHeadAttentionBlock(nn.Module):
 
   def scaled_dot_product_attention(self, query, key, value, mask):
     # (Seq_len, d_k) -> (Seq_len, Seq_len)
+
     matmul_qk = query @ key.transpose(-2, -1)
+
     scaled_attention_logits = matmul_qk / self.scale
 
     if mask is not None:
       scaled_attention_logits.masked_fill_(mask == 0, -1e9) # if mask == 0 fill it as -1e9 (sim -inf)
 
-    attention_weights = scaled_attention_logits.softmax(dim=-1)
-    attention_weights = self.dropout(attention_weights)
+    attention_score = scaled_attention_logits.softmax(dim=-1)
+    attention_weights = self.dropout(attention_score)
     x = attention_weights @ value
 
-    return x, attention_weights
+    return x, attention_score
 
   def split_heads(self, x, n_head, d_k):
     # (Batch, Seq_len, d_model) -> (Batch, Seq_len, n_head, d_k) -> (Batch, n_head, Seq_len, d_k)
@@ -88,13 +90,13 @@ class MultiHeadAttentionBlock(nn.Module):
     K = self.split_heads(K, self.n_head, self.d_k)
     V = self.split_heads(V, self.n_head, self.d_k)
 
-    x, attention_weights = self.scaled_dot_product_attention(Q, K, V, mask)
+    x, attention_score = self.scaled_dot_product_attention(Q, K, V, mask)
 
     # (Batch, n_head, Seq_len, d_k) -> (Batch, Seq_len, n_head, d_k) -> (Batch, Seq_len, d_model)
     concat_attention  = x.transpose(1, 2).contiguous().view(x.shape[0], -1, self.n_head * self.d_k)
 
     # (Batch, Seq_len, d_model) -> (Batch, Seq_len, d_model)
-    return self.dense(concat_attention)
+    return self.dense(concat_attention), attention_score
 
 
 class FeedForwardBlock(nn.Module):
@@ -132,7 +134,7 @@ class EncoderLayer(nn.Module):
   def forward(self, x, src_mask):
     residual = x
     x = self.layer_norm(x)
-    x = self.self_attention(x, x, x, src_mask)
+    x, _ = self.self_attention(x, x, x, src_mask)
     x = self.dropout(x)
     x = residual + x
     
@@ -158,13 +160,13 @@ class DecoderLayer(nn.Module):
   def forward(self, x, encoder_output, src_mask, tgt_mask):
     residual = x
     x = self.layer_norm(x)
-    x = self.self_attention(x, x, x, tgt_mask)
+    x, _ = self.self_attention(x, x, x, tgt_mask)
     x = self.dropout(x)
     x = residual + x
 
     residual = x
     x = self.layer_norm(x)
-    x = self.cross_attention(x, encoder_output, encoder_output, src_mask)
+    x, attention_score = self.cross_attention(x, encoder_output, encoder_output, src_mask)
     x = self.dropout(x)
     x = residual + x
 
@@ -174,7 +176,7 @@ class DecoderLayer(nn.Module):
     x = self.dropout(x)
     x = residual + x
 
-    return x
+    return x, attention_score
 
 
 class Transformer(nn.Module):
@@ -213,8 +215,8 @@ class Transformer(nn.Module):
     tgt = self.tgt_embed(tgt)
 
     for layer in self.decoder_layers:
-      tgt = layer(tgt, encoder_output, src_mask, tgt_mask)
-    return self.layer_norm(tgt)
+      tgt, attention_score = layer(tgt, encoder_output, src_mask, tgt_mask)
+    return self.layer_norm(tgt), attention_score
 
   def project(self, x):
     return self.projection_layer(x)
