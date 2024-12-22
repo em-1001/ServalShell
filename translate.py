@@ -43,7 +43,6 @@ def translate(sentence: str):
            ]
         )
         source_mask = (encoder_input != pad_token).unsqueeze(0).int()
-        # encoder_output = model.encode(encoder_input.unsqueeze(0).to(device), source_mask.to(device))
 
         if config['beam_search']:
             decode_output, attention_score = beam_search(model, encoder_input.unsqueeze(0).to(device), source_mask.to(device), tokenizer_src, tokenizer_tgt, config['seq_len'], device, beam_width=config['beam_width'])
