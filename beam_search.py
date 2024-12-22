@@ -24,7 +24,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
 
             decoder_mask = causal_mask(beam_input.size(1)).type_as(source_mask).to(device)
 
-            out = model.decode(encoder_output, source_mask, beam_input, decoder_mask)
+            out, attention_score = model.decode(encoder_output, source_mask, beam_input, decoder_mask)
 
             prob = model.project(out[:, -1])
             topk_scores, topk_words = torch.topk(prob, 2*beam_width-1)
@@ -41,7 +41,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
                 new_score = beam_score - score.item()  # Negative log likelihood
 
                 if word_idx == eos_idx:
-                    eos_candidates.append([new_beam_input, new_score])
+                    eos_candidates.append([new_beam_input, new_score, attention_score])
                     boundary += 1
                     eos_cnt += 1
                     if eos_cnt == beam_width:
@@ -65,7 +65,7 @@ def beam_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_le
     #    print(text, score, len(text[0]), score/length_penalty(len(text[0])))
 
     best_beam = sorted(eos_candidates, key=lambda x: x[1]/length_penalty(len(x[0][0])))
-    return [best_beam[i][0] for i in range(beam_width)]
+    return [best_beam[i][0] for i in range(beam_width)], [best_beam[i][2] for i in range(beam_width)]
 
 
 
@@ -85,7 +85,7 @@ def greedy_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_
         decoder_mask = causal_mask(decoder_input.size(1)).type_as(source_mask).to(device)
 
         # calculate output
-        out = model.decode(encoder_output, source_mask, decoder_input, decoder_mask)
+        out, attention_score = model.decode(encoder_output, source_mask, decoder_input, decoder_mask)
 
         # get next token
         prob = model.project(out[:, -1])
@@ -97,4 +97,4 @@ def greedy_search(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_
         if next_word == eos_idx:
             break
 
-    return decoder_input.squeeze(0)
+    return decoder_input.squeeze(0), attention_score
