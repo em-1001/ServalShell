@@ -37190,33 +37190,5 @@
     "9298": {
         "invocation": "ssh into localhost on port 10022",
         "cmd": "ssh -p 10022 localhost"
-    },
-    "9299": {
-        "invocation": "SSH into user@server and run command ${SSH_COMMAND}",
-        "cmd": "ssh user@server \"${SSH_COMMAND}\""
-    },
-    "9300": {
-        "invocation": "Strips last section from the path $pathname, and prints basename of the rest part.",
-        "cmd": "echo $(basename $(dirname $pathname))"
-    },
-    "9301": {
-        "invocation": "Test if \"file.tar.gz\" is corrupt",
-        "cmd": "gunzip -t file.tar.gz"
-    },
-    "9302": {
-        "invocation": "Unzip file \"$empty_variable\"",
-        "cmd": "gunzip $empty_variable"
-    },
-    "9303": {
-        "invocation": "(GNU specific) Use 'top' to monitor one process.",
-        "cmd": "top \u2013p $PID"
-    },
-    "9304": {
-        "invocation": "use find command to search for .png and .jpg files",
-        "cmd": "find ./ -type f \\( -iname \\*.jpg -o -iname \\*.png \\)"
-    },
-    "9305": {
-        "invocation": "when using vi-insert keymap bind command \"\\C-v{}\\ei\" to key \"{\"",
-        "cmd": "bind -m vi-insert '\"{\" \"\\C-v{}\\ei\"'"
     }
 }
