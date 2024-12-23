@@ -119,7 +119,7 @@ def get_ds(config):
   tokenizer_tgt = get_or_build_tokenizer(config, ds_raw, config['lang_tgt'])
 
   # keep 90% for training and 10% for validation
-  train_ds_raw, val_ds_raw = train_test_split(list(ds_raw.values()),train_size = 0.9)
+  train_ds_raw, val_ds_raw = train_test_split(list(ds_raw.values()),train_size = 0.9, random_state=777)
 
   train_ds = BilingualDataset(train_ds_raw, tokenizer_src, tokenizer_tgt, config['lang_src'], config['lang_tgt'], config['seq_len'])
   val_ds = BilingualDataset(val_ds_raw, tokenizer_src, tokenizer_tgt, config['lang_src'], config['lang_tgt'], config['seq_len'])
